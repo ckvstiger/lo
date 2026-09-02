@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智光商工資處科1仁 - 超級無敵可愛座位表 🌸</title>
+  <!-- Google Fonts: Zen Maru Gothic & Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #e6e6fa 50%, #f0f8ff 100%);
+      --primary-pink: #ff85a2;
+      --secondary-pink: #fbb1bd;
+      --soft-yellow: #ffea85;
+      --mint-green: #b5ead7;
+      --lavender: #c7ceea;
+      --sky-blue: #a0c4ff;
+      --text-color: #5c4b51;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-shadow: 0 10px 25px rgba(255, 133, 162, 0.15);
+      --podium-bg: linear-gradient(135deg, #4a3e3d 0%, #2b2120 100%);
+      --podium-border: #ffd1dc;
+    }
+
+    /* Strawberry Theme */
+    [data-theme="strawberry"] {
+      --bg-gradient: linear-gradient(135deg, #ffe3e8 0%, #ffc2d1 100%);
+      --primary-pink: #ff4d6d;
+      --secondary-pink: #ff85a1;
+      --card-bg: rgba(255, 240, 243, 0.95);
+      --text-color: #590d22;
+    }
+
+    /* Dreamy Blue Theme */
+    [data-theme="dreamy"] {
+      --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #f0f9ff 100%);
+      --primary-pink: #38bdf8;
+      --secondary-pink: #7dd3fc;
+      --card-bg: rgba(240, 249, 255, 0.95);
+      --text-color: #0c4a6e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Zen Maru Gothic', 'Fredoka', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Floating background sparkles */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: floatSparkle 6s ease-in-out infinite alternate;
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    @keyframes floatSparkle {
+      0% {
+        transform: translateY(0px) rotate(0deg) scale(0.8);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(180deg) scale(1.1);
+      }
+
+      100% {
+        transform: translateY(0px) rotate(360deg) scale(0.8);
+      }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Top Banner Header */
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: var(--primary-pink);
+      color: white;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(255, 133, 162, 0.3);
+      margin-bottom: 10px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--primary-pink);
+      text-shadow: 3px 3px 0px #fff, 6px 6px 0px rgba(255, 182, 193, 0.4);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Action bar controls */
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 12px 25px;
+      border-radius: 50px;
+      box-shadow: var(--card-shadow);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box input {
+      padding: 10px 18px 10px 40px;
+      border: 2px solid var(--secondary-pink);
+      border-radius: 25px;
+      font-size: 0.95rem;
+      outline: none;
+      width: 220px;
+      transition: all 0.3s ease;
+      background: white;
+      color: var(--text-color);
+    }
+
+    .search-box input:focus {
+      width: 260px;
+      border-color: var(--primary-pink);
+      box-shadow: 0 0 12px rgba(255, 133, 162, 0.4);
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 14px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background: white;
+      border: 2px solid var(--secondary-pink);
+      color: var(--text-color);
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn:hover {
+      background: var(--primary-pink);
+      color: white;
+      border-color: var(--primary-pink);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(255, 133, 162, 0.35);
+    }
+
+    .btn-primary {
+      background: var(--primary-pink);
+      color: white;
+      border-color: var(--primary-pink);
+    }
+
+    .btn-primary:hover {
+      background: #ff6b8b;
+    }
+
+    /* Classroom Wall Frame */
+    .classroom-frame {
+      background: rgba(255, 255, 255, 0.6);
+      border: 4px dashed var(--secondary-pink);
+      border-radius: 35px;
+      padding: 30px 20px;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.8), var(--card-shadow);
+      margin-bottom: 30px;
+    }
+
+
+
+    /* Podium / Blackboard */
+    .blackboard-area {
+      max-width: 650px;
+      margin: 0 auto 35px auto;
+      background: var(--podium-bg);
+      border: 8px solid var(--podium-border);
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      color: #f8fafc;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .blackboard-area::before {
+      content: '🧹 講台 / 黑板 🌸';
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #fde047;
+      letter-spacing: 4px;
+      margin-bottom: 6px;
+    }
+
+    .blackboard-subtitle {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* Seats Grid Layout */
+    .rows-container {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .row-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 1100px;
+      justify-content: center;
+    }
+
+    .row-label {
+      background: var(--soft-yellow);
+      color: #854d0e;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 900;
+      font-size: 0.9rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      white-space: nowrap;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .seats-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      flex: 1;
+      max-width: 1000px;
+    }
+
+    /* Desk Card Styling */
+    .desk-card {
+      background: var(--card-bg);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      border-radius: 22px;
+      padding: 14px 10px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 125px;
+      overflow: hidden;
+    }
+
+    .desk-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary-pink), var(--soft-yellow));
+      border-radius: 22px 22px 0 0;
+    }
+
+    .desk-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 15px 30px rgba(255, 133, 162, 0.35);
+      border-color: var(--primary-pink);
+    }
+
+    /* Highlight matching search or lucky winner */
+    .desk-card.highlight {
+      animation: pulseGlow 1.2s infinite alternate;
+      border-color: var(--primary-pink);
+      transform: translateY(-6px) scale(1.06);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 15px var(--primary-pink);
+      }
+
+      100% {
+        box-shadow: 0 0 30px #ff0055, 0 0 10px #ffea85;
+      }
+    }
+
+    .desk-card.empty-desk {
+      background: rgba(241, 245, 249, 0.6);
+      border: 2px dashed #cbd5e1;
+      box-shadow: none;
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    .desk-card.empty-desk::after {
+      display: none;
+    }
+
+    .seat-badge {
+      background: #f1f5f9;
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .student-avatar {
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+    }
+
+    .desk-card:hover .student-avatar {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    .student-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--text-color);
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    /* Footer Info Bar */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 30px;
+      padding: 30px 35px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transform: scale(0.8);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 4px solid var(--secondary-pink);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #aaa;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--primary-pink);
+    }
+
+    .modal-avatar {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      animation: popAvatar 0.5s ease;
+    }
+
+    @keyframes popAvatar {
+      0% {
+        transform: scale(0);
+      }
+
+      80% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .modal-name {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary-pink);
+      margin-bottom: 5px;
+    }
+
+    .modal-seat-no {
+      background: var(--soft-yellow);
+      color: #854d0e;
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .modal-tag {
+      background: #f0fdf4;
+      border: 2px dashed #4ade80;
+      color: #166534;
+      padding: 10px 15px;
+      border-radius: 15px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .controls,
+      .sparkle,
+      button {
+        display: none !important;
+      }
+
+      .classroom-frame {
+        border: 2px solid #ccc;
+        box-shadow: none;
+        padding: 10px;
+      }
+
+      .desk-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+
+    /* Ordering System Extensions */
+    .time-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+    }
+    .status-open {
+      background: #dcfce7;
+      color: #15803d;
+      border: 2px solid #86efac;
+    }
+    .status-closed {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 2px solid #fca5a5;
+    }
+
+    /* Stats Dashboard */
+    .stats-dashboard {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 3px solid var(--secondary-pink);
+      border-radius: 25px;
+      padding: 18px 22px;
+      margin-bottom: 25px;
+      box-shadow: var(--card-shadow);
+    }
+    .stats-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .stats-header h3 {
+      font-size: 1.2rem;
+      color: var(--primary-pink);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stats-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border-radius: 20px;
+    }
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 10px;
+      text-align: center;
+      border: 2px solid rgba(255, 133, 162, 0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
+    .stat-num {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--primary-pink);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .item-summary-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .summary-pill {
+      background: white;
+      color: #334155;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid rgba(255, 133, 162, 0.3);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+    .summary-pill .qty-badge {
+      background: var(--primary-pink);
+      color: white;
+      padding: 2px 9px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+    .summary-pill .subtotal-text {
+      color: #059669;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    /* Desk card order tags */
+    .order-badge {
+      margin-top: 5px;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1.5px solid #6ee7b7;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .desk-card.has-order {
+      border-color: #34d399 !important;
+      background: rgba(236, 253, 245, 0.95);
+    }
+    .desk-card.has-order::after {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    /* Order Modal Step Styles */
+    .modal-card-wide {
+      max-width: 540px !important;
+    }
+    .step-box {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .password-input {
+      padding: 12px;
+      border: 2px solid var(--secondary-pink);
+      border-radius: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      outline: none;
+      width: 100%;
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
+    .password-input:focus {
+      border-color: var(--primary-pink);
+      box-shadow: 0 0 10px rgba(255, 133, 162, 0.3);
+    }
+    .error-text {
+      color: #ef4444;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 6px;
+      margin-top: 10px;
+    }
+    .menu-item-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .menu-item-card:hover {
+      border-color: var(--primary-pink);
+      background: white;
+      transform: translateY(-2px);
+    }
+    .menu-item-card.selected {
+      border-color: var(--primary-pink);
+      background: #fff0f5;
+      box-shadow: 0 0 10px rgba(255, 133, 162, 0.3);
+    }
+    .menu-item-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-color);
+    }
+    .menu-item-price {
+      font-weight: 900;
+      color: var(--primary-pink);
+      font-size: 0.98rem;
+      margin-top: 4px;
+    }
+    .menu-item-note {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .current-order-banner {
+      background: #ecfdf5;
+      border: 2px dashed #34d399;
+      border-radius: 16px;
+      padding: 10px;
+      color: #065f46;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .alert-banner {
+      background: #fef2f2;
+      border: 2px dashed #fca5a5;
+      border-radius: 16px;
+      padding: 12px;
+      color: #991b1b;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* Stats Table */
+    .stats-table-container {
+      max-height: 380px;
+      overflow-y: auto;
+      margin-top: 15px;
+    }
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .stats-table th, .stats-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .stats-table th {
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    /* Cloud Sync Status */
+    .sync-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .sync-connected {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 2px solid #7dd3fc;
+    }
+    .sync-local {
+      background: #fef3c7;
+      color: #b45309;
+      border: 2px solid #fde68a;
+    }
+    .sync-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 2px solid #fca5a5;
+    }
+    .sync-spin {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Code block in guide */
+    .code-box {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.8rem;
+      text-align: left;
+      max-height: 180px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      user-select: text;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      background: #334155;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .copy-btn:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Sparkles -->
+  <div class="sparkle" style="top: 10%; left: 5%; font-size: 1.5rem;">🌸</div>
+  <div class="sparkle" style="top: 25%; right: 6%; font-size: 1.8rem;">✨</div>
+  <div class="sparkle" style="top: 70%; left: 8%; font-size: 1.6rem;">🎀</div>
+  <div class="sparkle" style="top: 85%; right: 10%; font-size: 1.4rem;">💖</div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="badge-tag">🏫 智光高級商工職業學校</div>
+      <h1>
+        <span>資處科 1 仁 座位表</span>
+        <span style="font-size: 2.2rem;">🍡</span>
+      </h1>
+    </header>
+
+    <!-- Toolbar Controls -->
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜尋姓名或座號..." oninput="handleSearch()">
+      </div>
+      <div id="timeStatusBadge" class="time-status-badge status-open">
+        🟢 訂餐開放中 (00:00~08:00, 13:00~24:00)
+      </div>
+      <div id="syncStatusBadge" class="sync-status-badge sync-local" onclick="openCloudModal()" title="點擊設定雲端資料庫">
+        <span>🟡</span> <span>本地模式 (點此設定雲端同步)</span>
+      </div>
+      <button class="btn" onclick="fetchCloudOrders(true)" id="refreshBtn" title="手動重新整理最新訂單">
+        <span id="refreshIcon">🔄</span> 立即同步
+      </button>
+      <button class="btn" onclick="openCloudModal()">
+        <span>☁️</span> 雲端同步設定
+      </button>
+      <button class="btn" onclick="toggleTestMode()" id="testModeBtn">
+        <span>⚡</span> 測試模式：關閉
+      </button>
+      <button class="btn btn-primary" onclick="randomPicker()">
+        <span>🎲</span> 幸運隨機抽籤
+      </button>
+      <button class="btn" onclick="toggleTheme()">
+        <span>🎨</span> 切換主題
+      </button>
+      <button class="btn" onclick="openStatsModal()">
+        <span>📊</span> 全班訂餐明細
+      </button>
+      <button class="btn" onclick="window.print()">
+        <span>🖨️</span> 列印
+      </button>
+    </div>
+
+    <!-- Main Classroom Area -->
+    <div class="classroom-frame">
+      <!-- Blackboard / Podium -->
+      <div class="blackboard-area">
+        <div class="blackboard-subtitle">✨ 歡迎來到資處一仁！點擊個人座位輸入密碼（與座號相同）即可開始訂餐 ✨</div>
+      </div>
+
+      <!-- Live Order Statistics Dashboard -->
+      <div class="stats-dashboard" id="statsDashboard">
+        <div class="stats-header">
+          <h3>🍱 資處一仁 訂餐即時統計資料 <span id="lastSyncTime" style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:8px;"></span></h3>
+          <div class="stats-actions">
+            <button class="btn btn-sm btn-primary" onclick="openStatsModal()">📋 全班明細對照表</button>
+            <button class="btn btn-sm" style="background:#06c755; color:white; border-color:#06c755;" onclick="copyLineSummary()">💬 複製 LINE 回報格式</button>
+            <button class="btn btn-sm" onclick="clearAllOrders()">🗑️ 重置所有訂餐紀錄</button>
+          </div>
+        </div>
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-num" id="statOrderedCount">0 / 31 人</div>
+            <div class="stat-label">已完成訂餐人數</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="statTotalAmount">$0 元</div>
+            <div class="stat-label">訂餐累積總金額</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="statUnorderedCount">31 人</div>
+            <div class="stat-label">未訂餐人數</div>
+          </div>
+        </div>
+        <div class="item-summary-list" id="itemSummaryList">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Seating Rows -->
+      <div class="rows-container" id="rowsContainer">
+        <!-- JS generates rows here -->
+      </div>
+    </div>
+
+    <footer id="footerInfo">
+      💖 智光商工 資處科一仁 班級座位表 · 總人數：31 人 (每排 6 個座位)
+    </footer>
+  </div>
+
+  <!-- Student Detail & Ordering Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-card modal-card-wide">
+      <div class="modal-close" onclick="closeModalDirect()">✕</div>
+      <div class="modal-avatar" id="modalAvatar">🐱</div>
+      <div class="modal-name" id="modalName">學生姓名</div>
+      <div class="modal-seat-no" id="modalSeatNo">01 號</div>
+      <div id="modalPosition" style="color: #666; font-size: 0.92rem; margin-bottom: 5px;"></div>
+
+      <!-- Step 1: Password Login -->
+      <div id="passwordStep" class="step-box">
+        <div style="font-weight: 700; color: var(--primary-pink); font-size: 1.05rem;">🔒 請輸入訂餐密碼</div>
+        <input type="password" id="studentPasswordInput" class="password-input" placeholder="密碼與座號相同..." onkeypress="if(event.key==='Enter') verifyPassword()">
+        <div class="error-text" id="passwordError" style="display: none;"></div>
+        <div style="font-size: 0.82rem; color: #64748b;">💡 提示：預設密碼與座號相同（例如 01 號密碼為 01，31 號密碼為 31）</div>
+        <button class="btn btn-primary" style="justify-content: center; width: 100%; margin-top: 5px;" onclick="verifyPassword()">
+          🔑 登入驗證
+        </button>
+      </div>
+
+      <!-- Step 2: Order Selection -->
+      <div id="menuStep" class="step-box" style="display: none;">
+        <div id="orderStatusBanner"></div>
+        <div id="menuSelectionArea">
+          <div style="font-weight: 700; font-size: 0.95rem; text-align: left; color: var(--text-color);">🍱 請選擇今日午餐品項：</div>
+          <div class="menu-grid" id="menuGrid">
+            <!-- Menu items populated by JS -->
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-primary" id="submitOrderBtn" style="flex: 1; justify-content: center;" onclick="confirmOrder()">
+              🍱 送出 / 修改訂單
+            </button>
+            <button class="btn" id="cancelOrderBtn" style="display: none; color: #ef4444; border-color: #fca5a5;" onclick="removeOrder()">
+              ❌ 取消點餐
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Statistics Modal -->
+  <div class="modal-overlay" id="statsModalOverlay" onclick="closeStatsModal(event)">
+    <div class="modal-card modal-card-wide" style="max-width: 760px;">
+      <div class="modal-close" onclick="closeStatsModalDirect()">✕</div>
+      <h2 style="color: var(--primary-pink); font-weight: 900; margin-bottom: 10px;">📊 全班訂餐統計與明細對照表</h2>
+      <div style="display: flex; justify-content: space-around; background: #fff0f5; padding: 10px; border-radius: 16px; margin-bottom: 15px; font-weight: 700; font-size: 0.9rem; flex-wrap:wrap; gap:8px;">
+        <div>全班總人數：<span id="modalStatTotalStudents">31</span> 人</div>
+        <div>已訂餐：<span id="modalStatOrdered" style="color: #10b981;">0</span> 人</div>
+        <div>總金額：<span id="modalStatTotalAmount" style="color: var(--primary-pink);">$0</span> 元</div>
+      </div>
+
+      <!-- Item Quantity Summary Section -->
+      <div style="margin-bottom: 20px; text-align: left;">
+        <h3 style="font-size: 1.02rem; color: var(--primary-pink); font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          📌 同一餐點訂購總數量與金額小計
+        </h3>
+        <div style="max-height: 180px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
+          <table class="stats-table" style="margin-top: 0;">
+            <thead>
+              <tr>
+                <th>餐點名稱</th>
+                <th>訂購數量</th>
+                <th>單價</th>
+                <th>金額小計</th>
+                <th>訂餐學生名單</th>
+              </tr>
+            </thead>
+            <tbody id="itemSummaryTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Student Individual Roster Section -->
+      <div style="text-align: left;">
+        <h3 style="font-size: 1.02rem; color: var(--primary-pink); font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          👤 學生個人訂餐名單對照表 (全班 31 人)
+        </h3>
+        <div class="stats-table-container" style="max-height: 220px; margin-top: 0; border: 1px solid #e2e8f0; border-radius: 12px;">
+          <table class="stats-table" style="margin-top: 0;">
+            <thead>
+              <tr>
+                <th>座號</th>
+                <th>姓名</th>
+                <th>狀態</th>
+                <th>訂購餐點</th>
+                <th>金額</th>
+                <th>訂餐時間</th>
+              </tr>
+            </thead>
+            <tbody id="statsTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <button class="btn" style="background:#06c755; color:white; border-color:#06c755; font-size:0.85rem;" onclick="copyLineSummary()">
+          💬 複製成 LINE 回報文字
+        </button>
+        <button class="btn" style="display: inline-flex; font-weight:700;" onclick="closeStatsModalDirect()">關閉視窗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloud Synchronization Settings Modal -->
+  <div class="modal-overlay" id="cloudModalOverlay" onclick="closeCloudModal(event)">
+    <div class="modal-card modal-card-wide" style="max-width: 680px; text-align: left;">
+      <div class="modal-close" onclick="closeCloudModalDirect()">✕</div>
+      <h2 style="color: var(--primary-pink); font-weight: 900; margin-bottom: 8px; display:flex; align-items:center; gap:8px;">
+        ☁️ 雲端跨裝置即時同步設定
+      </h2>
+      <div style="font-size:0.88rem; color:#475569; margin-bottom:15px; line-height:1.5; background:#f8fafc; padding:10px 14px; border-radius:12px; border:1px solid #e2e8f0;">
+        💡 <strong>為什麼老師會看到 0 人？</strong><br>
+        因為 GitHub Pages 是靜態網頁，學生手機上的點餐只存在自己的瀏覽器（LocalStorage）中。<br>
+        設定<strong>雲端後端網址（推薦免費 Google 試算表 GAS）</strong>後，31 位學生的手機與老師的電腦就能<strong>秒級跨裝置即時同步</strong>！
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <label style="font-weight: 700; font-size: 0.95rem; color: var(--text-color); display:block; margin-bottom: 6px;">
+          🔗 雲端同步 API 網址 (Google Apps Script Web App 或 Firebase/REST URL)：
+        </label>
+        <input type="text" id="cloudApiUrlInput" class="password-input" style="font-size:0.92rem; text-align:left; letter-spacing:0; padding:10px 14px; font-weight:normal;" placeholder="例如：https://script.google.com/macros/s/AKfycb.../exec">
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button class="btn btn-primary btn-sm" onclick="saveCloudSettings()">💾 儲存並測試連線</button>
+          <button class="btn btn-sm" onclick="clearCloudSettings()">🗑️ 清除改用本地</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
+        <h4 style="color: var(--primary-pink); font-weight: 800; margin-bottom: 6px;">
+          📋 3 分鐘免費建立 Google 試算表後端 (超簡單教學)：
+        </h4>
+        <ol style="font-size:0.85rem; color:#334155; margin-left:20px; line-height:1.6;">
+          <li>開啟您的 <a href="https://sheets.new" target="_blank" style="color:#0284c7; font-weight:700;">Google 試算表 (點此新建)</a>。</li>
+          <li>點擊上方選單的 <strong>「擴充功能」 ➔ 「Apps Script」</strong>。</li>
+          <li>將下方完整程式碼貼上並覆蓋原內容，點擊「儲存 💾」。</li>
+          <li>右上角點 <strong>「部署」 ➔ 「新增部署」</strong> ➔ 選擇類型「網頁應用程式」 ➔ 存取權限選<strong>「所有人 (Anyone)」</strong> ➔ 點「部署」。</li>
+          <li>複製生成的<strong>「網頁應用程式網址 (Web App URL)」</strong>，貼回上方輸入框即可！</li>
+        </ol>
+
+        <div style="position:relative; margin-top:10px;">
+          <div class="code-box" id="gasCodeBox">// Google Apps Script 程式碼 (直接複製貼上)
+const SHEET_NAME = "點餐明細";
+
+function doGet(e) {
+  const sheet = getOrCreateSheet();
+  const data = sheet.getDataRange().getValues();
+  const orders = {};
+  for (let i = 1; i < data.length; i++) {
+    const seat = String(data[i][0]).padStart(2, '0');
+    if (seat && data[i][2]) {
+      orders[seat] = {
+        name: data[i][1],
+        item: data[i][2],
+        price: data[i][3],
+        time: data[i][4]
+      };
+    }
+  }
+  return ContentService.createTextOutput(JSON.stringify({ status: "success", orders: orders }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    const postData = JSON.parse(e.postData.contents);
+    const action = postData.action;
+    const sheet = getOrCreateSheet();
+    
+    if (action === "order") {
+      const seat = String(postData.seat).padStart(2, '0');
+      const name = postData.name;
+      const item = postData.item;
+      const price = postData.price;
+      const time = postData.time;
+      
+      const data = sheet.getDataRange().getValues();
+      let foundRow = -1;
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]).padStart(2, '0') === seat) {
+          foundRow = i + 1;
+          break;
+        }
+      }
+      
+      if (foundRow > 0) {
+        sheet.getRange(foundRow, 1, 1, 5).setValues([[seat, name, item, price, time]]);
+      } else {
+        sheet.appendRow([seat, name, item, price, time]);
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "訂單已儲存" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else if (action === "cancel") {
+      const seat = String(postData.seat).padStart(2, '0');
+      const data = sheet.getDataRange().getValues();
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]).padStart(2, '0') === seat) {
+          sheet.deleteRow(i + 1);
+          break;
+        }
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "訂單已取消" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else if (action === "reset") {
+      sheet.clearContents();
+      sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "全部重置完成" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function getOrCreateSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);
+  }
+  return sheet;
+}</div>
+          <button class="copy-btn" onclick="copyGasCode()">📋 複製 GAS 程式碼</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 15px; text-align: right;">
+        <button class="btn" onclick="closeCloudModalDirect()">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 31 Students Data from seat.json
+    const studentsData = [
+      { 座號: "01", 姓名: "呂如盈" },
+      { 座號: "02", 姓名: "李依諠" },
+      { 座號: "03", 姓名: "李英慈" },
+      { 座號: "04", 姓名: "周妍汝" },
+      { 座號: "05", 姓名: "林榮萱" },
+      { 座號: "06", 姓名: "洪欣榆" },
+      { 座號: "07", 姓名: "黃芊瑜" },
+      { 座號: "08", 姓名: "趙仲琳" },
+      { 座號: "09", 姓名: "蔡佳穎" },
+      { 座號: "10", 姓名: "蔡媗婷" },
+      { 座號: "11", 姓名: "林芊妤" },
+      { 座號: "12", 姓名: "吳漢嶸" },
+      { 座號: "13", 姓名: "李晉綸" },
+      { 座號: "14", 姓名: "周國豪" },
+      { 座號: "15", 姓名: "陳睦涵" },
+      { 座號: "16", 姓名: "林峻穎" },
+      { 座號: "17", 姓名: "徐承宥" },
+      { 座號: "18", 姓名: "曾秉軒" },
+      { 座號: "19", 姓名: "黃柏翔" },
+      { 座號: "20", 姓名: "黃郁翔" },
+      { 座號: "21", 姓名: "楊士德" },
+      { 座號: "22", 姓名: "歐家同" },
+      { 座號: "23", 姓名: "蔡承安" },
+      { 座號: "24", 姓名: "鄭品翊" },
+      { 座號: "25", 姓名: "鐘百越" },
+      { 座號: "26", 姓名: "高于翔" },
+      { 座號: "27", 姓名: "張韶庭" },
+      { 座號: "28", 姓名: "蔡樂耀" },
+      { 座號: "29", 姓名: "鐘承緯" },
+      { 座號: "30", 姓名: "王潤泓" },
+      { 座號: "31", 姓名: "蔡亦琇" }
+    ];
+
+    // Lunch Menu 12 Options from lunch_menu.json
+    const defaultLunchMenu = [
+      { 餐點: "涼麵", 金額: 50 },
+      { 餐點: "滷肉飯", 金額: 50 },
+      { 餐點: "麻辣燙(附白飯)", 金額: 80 },
+      { 餐點: "沙茶豬肉鍋(附白飯)", 金額: 90 },
+      { 餐點: "麻辣沙茶豬肉鍋(附白飯)", 金額: 90 },
+      { 餐點: "咖哩雞排飯", 金額: 80 },
+      { 餐點: "便當(無骨雞)", 金額: 80, 備註: "3副菜+1主食" },
+      { 餐點: "便當(椒麻雞)", 金額: 80, 備註: "3副菜+1主食" },
+      { 餐點: "便當(日式豬)", 金額: 80, 備註: "3副菜+1主食" },
+      { 餐點: "便當(豬柳飯)", 金額: 80, 備註: "3副菜+1主食" },
+      { 餐點: "便當(糖醋排骨)", 金額: 80, 備註: "3副菜+1主食" },
+      { 餐點: "羹麵", 金額: 60 }
+    ];
+    let lunchMenu = [...defaultLunchMenu];
+
+    // Orders state (stored in localStorage and synced with Cloud)
+    const STORAGE_KEY = "seat_class_orders_v1";
+    const CLOUD_API_KEY = "seat_cloud_api_url";
+    
+    // Preset default Cloud URL (Users can configure in settings or embed here)
+    let cloudApiUrl = localStorage.getItem(CLOUD_API_KEY) || "";
+    let ordersData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+
+    // Test mode state (bypasses 00:00~08:00 & 13:00~24:00 time restriction)
+    let isTestMode = false;
+    let currentStudent = null;
+    let selectedMenuItem = null;
+    let isFetchingCloud = false;
+
+    // Cute animal avatars list
+    const cuteAvatars = ["🐱", "🐶", "🐰", "🐻", "🦊", "🐼", "🐨", "🐥", "🐹", "🐸", "🦄", "🦔", "🐧", "🐱‍👤", "🐙"];
+
+    const SEATS_PER_ROW = 6;
+
+    // Check if ordering is open (00:00~08:00 and 13:00~24:00)
+    function isOrderingOpen() {
+      if (isTestMode) return true;
+      const hours = new Date().getHours();
+      return (hours < 8 || hours >= 13);
+    }
+
+    function updateTimeStatusDisplay() {
+      const badge = document.getElementById("timeStatusBadge");
+      if (!badge) return;
+      const open = isOrderingOpen();
+      if (open) {
+        badge.className = "time-status-badge status-open";
+        badge.innerHTML = `🟢 訂餐開放中 ${isTestMode ? '(測試模式)' : '(00:00~08:00, 13:00~24:00)'}`;
+      } else {
+        badge.className = "time-status-badge status-closed";
+        badge.innerHTML = `🔴 非開放訂餐時間 (08:00~13:00 暫停訂餐)`;
+      }
+    }
+
+    function updateSyncStatusDisplay(status, text) {
+      const badge = document.getElementById("syncStatusBadge");
+      if (!badge) return;
+      if (status === "connected") {
+        badge.className = "sync-status-badge sync-connected";
+        badge.innerHTML = `<span>🟢</span> <span>${text || '雲端同步正常'}</span>`;
+      } else if (status === "syncing") {
+        badge.className = "sync-status-badge sync-connected";
+        badge.innerHTML = `<span class="sync-spin">🔄</span> <span>同步中...</span>`;
+      } else if (status === "error") {
+        badge.className = "sync-status-badge sync-error";
+        badge.innerHTML = `<span>🔴</span> <span>${text || '同步異常 (點此檢查)'}</span>`;
+      } else {
+        badge.className = "sync-status-badge sync-local";
+        badge.innerHTML = `<span>🟡</span> <span>本地模式 (點此設定雲端同步)</span>`;
+      }
+    }
+
+    function toggleTestMode() {
+      isTestMode = !isTestMode;
+      const btn = document.getElementById("testModeBtn");
+      btn.innerHTML = `<span>⚡</span> 測試模式：${isTestMode ? '開啟 🟢' : '關閉 🔴'}`;
+      if (isTestMode) {
+        btn.classList.add("btn-primary");
+      } else {
+        btn.classList.remove("btn-primary");
+      }
+      updateTimeStatusDisplay();
+    }
+
+    // Cloud Data Sync Engine
+    async function fetchCloudOrders(isManual = false) {
+      if (!cloudApiUrl) {
+        updateSyncStatusDisplay("local");
+        return;
+      }
+
+      if (isFetchingCloud) return;
+      isFetchingCloud = true;
+
+      const refreshIcon = document.getElementById("refreshIcon");
+      if (refreshIcon) refreshIcon.classList.add("sync-spin");
+      if (isManual) updateSyncStatusDisplay("syncing");
+
+      try {
+        const separator = cloudApiUrl.includes('?') ? '&' : '?';
+        const urlWithTimestamp = `${cloudApiUrl}${separator}_t=${Date.now()}`;
+        const response = await fetch(urlWithTimestamp);
+        
+        if (response.ok) {
+          const resJson = await response.json();
+          let newOrders = null;
+
+          if (resJson && resJson.orders) {
+            newOrders = resJson.orders;
+          } else if (typeof resJson === "object" && !Array.isArray(resJson)) {
+            newOrders = resJson;
+          }
+
+          if (newOrders) {
+            ordersData = newOrders;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+            renderSeats();
+            
+            const now = new Date();
+            const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+            updateSyncStatusDisplay("connected", `雲端已同步 (${timeStr})`);
+            const lastSyncEl = document.getElementById("lastSyncTime");
+            if (lastSyncEl) lastSyncEl.innerText = `· 最後同步: ${timeStr}`;
+            
+            if (isManual) {
+              alert("✅ 雲端資料同步成功！已更新全班最新點餐名單。");
+            }
+          }
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (err) {
+        console.warn("雲端同步失敗，切回本地紀錄:", err);
+        updateSyncStatusDisplay("error", "雲端連線失敗 (點此檢查)");
+        if (isManual) {
+          alert(`⚠️ 雲端連線失敗：${err.message}\n請檢查「雲端同步設定」中的網址是否正確。`);
+        }
+      } finally {
+        isFetchingCloud = false;
+        if (refreshIcon) refreshIcon.classList.remove("sync-spin");
+      }
+    }
+
+    async function sendCloudAction(payload) {
+      if (!cloudApiUrl) {
+        return false;
+      }
+      try {
+        // Use text/plain to avoid CORS preflight issues with Google Apps Script
+        await fetch(cloudApiUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+        // Schedule quick re-sync to confirm data
+        setTimeout(() => fetchCloudOrders(false), 800);
+        return true;
+      } catch (e) {
+        console.error("發送至雲端失敗:", e);
+        return false;
+      }
+    }
+
+    // Render Seats Grid
+    function renderSeats() {
+      const container = document.getElementById("rowsContainer");
+      container.innerHTML = "";
+
+      const totalSeats = Math.ceil(studentsData.length / SEATS_PER_ROW) * SEATS_PER_ROW;
+      const totalRows = Math.ceil(totalSeats / SEATS_PER_ROW);
+
+      const footer = document.getElementById("footerInfo");
+      if (footer) {
+        footer.innerText = `💖 智光商工 資處科一仁 班級座位表 · 總人數：${studentsData.length} 人 (每排 ${SEATS_PER_ROW} 個座位)`;
+      }
+
+      for (let r = 0; r < totalRows; r++) {
+        const rowWrapper = document.createElement("div");
+        rowWrapper.className = "row-wrapper";
+
+        const rowLabel = document.createElement("div");
+        rowLabel.className = "row-label";
+        rowLabel.innerText = `第 ${r + 1} 排`;
+        rowWrapper.appendChild(rowLabel);
+
+        const seatsRow = document.createElement("div");
+        seatsRow.className = "seats-row";
+
+        for (let c = 0; c < SEATS_PER_ROW; c++) {
+          const index = r * SEATS_PER_ROW + c;
+
+          const deskCard = document.createElement("div");
+          deskCard.className = "desk-card";
+
+          if (index < studentsData.length) {
+            const student = studentsData[index];
+            const avatar = cuteAvatars[index % cuteAvatars.length];
+            const studentOrder = ordersData[student.座號];
+
+            deskCard.setAttribute("data-seat", student.座號);
+            deskCard.setAttribute("data-name", student.姓名);
+            if (studentOrder) {
+              deskCard.classList.add("has-order");
+            }
+            deskCard.onclick = () => openModal(student, avatar, r + 1, c + 1);
+
+            let orderBadgeHtml = "";
+            if (studentOrder) {
+              orderBadgeHtml = `<div class="order-badge" title="${studentOrder.item}">🍱 ${studentOrder.item} ($${studentOrder.price})</div>`;
+            }
+
+            deskCard.innerHTML = `
+              <div class="seat-badge">${student.座號} 號</div>
+              <div class="student-avatar">${avatar}</div>
+              <div class="student-name">${student.姓名}</div>
+              ${orderBadgeHtml}
+            `;
+          } else {
+            // Empty desk
+            deskCard.classList.add("empty-desk");
+            deskCard.innerHTML = `
+              <div class="seat-badge">空位</div>
+              <div class="student-avatar" style="opacity: 0.4;">🪑</div>
+              <div class="student-name" style="color: #cbd5e1; font-weight: 500;">備用</div>
+            `;
+          }
+
+          seatsRow.appendChild(deskCard);
+        }
+
+        rowWrapper.appendChild(seatsRow);
+        container.appendChild(rowWrapper);
+      }
+
+      updateStatistics();
+    }
+
+    // Search filter
+    function handleSearch() {
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const cards = document.querySelectorAll(".desk-card:not(.empty-desk)");
+
+      cards.forEach(card => {
+        const seat = card.getAttribute("data-seat");
+        const name = card.getAttribute("data-name").toLowerCase();
+
+        if (query && (seat.includes(query) || name.includes(query))) {
+          card.classList.add("highlight");
+        } else {
+          card.classList.remove("highlight");
+        }
+      });
+    }
+
+    // Cute Lucky Picker
+    let pickingInterval = null;
+    function randomPicker() {
+      const cards = Array.from(document.querySelectorAll(".desk-card:not(.empty-desk)"));
+      if (cards.length === 0) return;
+
+      cards.forEach(c => c.classList.remove("highlight"));
+
+      let count = 0;
+      const maxFlips = 20;
+
+      if (pickingInterval) clearInterval(pickingInterval);
+
+      pickingInterval = setInterval(() => {
+        cards.forEach(c => c.classList.remove("highlight"));
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        cards[randomIndex].classList.add("highlight");
+
+        count++;
+        if (count >= maxFlips) {
+          clearInterval(pickingInterval);
+          const winnerCard = cards[randomIndex];
+          const seatNo = winnerCard.getAttribute("data-seat");
+
+          const studentObj = studentsData.find(s => s.座號 === seatNo);
+          const avatar = winnerCard.querySelector(".student-avatar").innerText;
+
+          setTimeout(() => {
+            openModal(studentObj, avatar, Math.ceil(parseInt(seatNo) / SEATS_PER_ROW), ((parseInt(seatNo) - 1) % SEATS_PER_ROW) + 1, true);
+          }, 300);
+        }
+      }, 100);
+    }
+
+    // Theme Switcher
+    const themes = ["default", "strawberry", "dreamy"];
+    let currentThemeIdx = 0;
+    function toggleTheme() {
+      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+      const theme = themes[currentThemeIdx];
+      if (theme === "default") {
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    }
+
+    // Modal Control
+    function openModal(student, avatar, row, col, isLucky = false) {
+      currentStudent = student;
+      selectedMenuItem = null;
+
+      document.getElementById("modalAvatar").innerText = avatar;
+      document.getElementById("modalName").innerText = student.姓名;
+      document.getElementById("modalSeatNo").innerText = `${student.座號} 號座位`;
+      document.getElementById("modalPosition").innerText = `📍 位置：第 ${row} 排 · 左起第 ${col} 個座位`;
+
+      // Reset to Step 1: Password
+      document.getElementById("passwordStep").style.display = "flex";
+      document.getElementById("menuStep").style.display = "none";
+      const pwdInput = document.getElementById("studentPasswordInput");
+      pwdInput.value = "";
+      document.getElementById("passwordError").style.display = "none";
+
+      document.getElementById("modalOverlay").classList.add("active");
+      setTimeout(() => pwdInput.focus(), 100);
+    }
+
+    function verifyPassword() {
+      if (!currentStudent) return;
+      const pwd = document.getElementById("studentPasswordInput").value.trim();
+      const errBox = document.getElementById("passwordError");
+
+      if (pwd === currentStudent.座號 || parseInt(pwd) === parseInt(currentStudent.座號)) {
+        errBox.style.display = "none";
+        showMenuStep();
+      } else {
+        errBox.innerText = `❌ 密碼不正確！提示：密碼為座號 (${currentStudent.座號})`;
+        errBox.style.display = "block";
+      }
+    }
+
+    function showMenuStep() {
+      document.getElementById("passwordStep").style.display = "none";
+      document.getElementById("menuStep").style.display = "flex";
+
+      const open = isOrderingOpen();
+      const existingOrder = ordersData[currentStudent.座號];
+      const banner = document.getElementById("orderStatusBanner");
+      const menuArea = document.getElementById("menuSelectionArea");
+      const cancelBtn = document.getElementById("cancelOrderBtn");
+
+      if (existingOrder) {
+        banner.className = "current-order-banner";
+        banner.innerHTML = `✅ 您已於 ${existingOrder.time} 訂購：<br><strong>${existingOrder.item} ($${existingOrder.price} 元)</strong>`;
+        cancelBtn.style.display = "inline-flex";
+      } else {
+        banner.className = "";
+        banner.innerHTML = "";
+        cancelBtn.style.display = "none";
+      }
+
+      if (!open) {
+        banner.className = "alert-banner";
+        banner.innerHTML = `⛔ 目前為非訂餐開放時間（開放時段：00:00~08:00 與 13:00~24:00）<br><span style="font-size:0.8rem; font-weight:normal;">若需測試，可點擊上方工具列的「⚡ 測試模式」</span>`;
+        if (!existingOrder) {
+          menuArea.style.display = "none";
+        } else {
+          menuArea.style.display = "block";
+        }
+      } else {
+        menuArea.style.display = "block";
+      }
+
+      renderMenuGrid(existingOrder ? existingOrder.item : null);
+    }
+
+    function renderMenuGrid(currentSelectedItemName) {
+      const grid = document.getElementById("menuGrid");
+      grid.innerHTML = "";
+
+      lunchMenu.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "menu-item-card";
+        if (currentSelectedItemName === item.餐點 || (selectedMenuItem && selectedMenuItem.餐點 === item.餐點)) {
+          card.classList.add("selected");
+          selectedMenuItem = item;
+        }
+
+        card.onclick = () => {
+          document.querySelectorAll(".menu-item-card").forEach(c => c.classList.remove("selected"));
+          card.classList.add("selected");
+          selectedMenuItem = item;
+        };
+
+        const noteHtml = item.備註 ? `<div class="menu-item-note">💡 ${item.備註}</div>` : '';
+
+        card.innerHTML = `
+          <div class="menu-item-name">${item.餐點}</div>
+          ${noteHtml}
+          <div class="menu-item-price">$${item.金額} 元</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function confirmOrder() {
+      if (!currentStudent) return;
+      if (!selectedMenuItem) {
+        alert("請先選擇您想訂購的餐點！");
+        return;
+      }
+      if (!isOrderingOpen()) {
+        alert("目前非開放訂餐時間！");
+        return;
+      }
+
+      const now = new Date();
+      const timeStr = `${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+
+      ordersData[currentStudent.座號] = {
+        name: currentStudent.姓名,
+        item: selectedMenuItem.餐點,
+        price: selectedMenuItem.金額,
+        time: timeStr
+      };
+
+      // 1. Save locally
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+      renderSeats();
+      closeModalDirect();
+
+      // 2. Send to Cloud (if configured)
+      sendCloudAction({
+        action: "order",
+        seat: currentStudent.座號,
+        name: currentStudent.姓名,
+        item: selectedMenuItem.餐點,
+        price: selectedMenuItem.金額,
+        time: timeStr
+      });
+
+      alert(`🎉 訂餐成功！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)`);
+    }
+
+    async function removeOrder() {
+      if (!currentStudent) return;
+      if (confirm(`確定要取消 ${currentStudent.姓名} 的點餐紀錄嗎？`)) {
+        delete ordersData[currentStudent.座號];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+        renderSeats();
+        closeModalDirect();
+
+        sendCloudAction({
+          action: "cancel",
+          seat: currentStudent.座號
+        });
+      }
+    }
+
+    function performResetOrders(reason = "重置") {
+      ordersData = {};
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+      renderSeats();
+      sendCloudAction({ action: "reset" });
+      console.log(`[訂餐系統] 已於 ${new Date().toLocaleString()} 完成全班訂餐紀錄重置 (${reason})`);
+    }
+
+    function clearAllOrders() {
+      const pwd = prompt("🔒 請輸入手動重置管理員密碼：");
+      if (pwd === null) return;
+      if (pwd.trim() === "ckvs888") {
+        if (confirm("⚠️ 密碼正確！確定要清空全班所有的訂餐紀錄嗎？")) {
+          performResetOrders("管理員手動重置 (密碼驗證成功)");
+          alert("✅ 全班訂餐紀錄已成功清空！");
+        }
+      } else {
+        alert("❌ 重置密碼錯誤！無法清空訂餐紀錄。");
+      }
+    }
+
+    function checkAutoReset() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      const todayStr = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')}`;
+      const lastResetDay = localStorage.getItem("seat_last_reset_day");
+
+      // Check if current time is past 12:59:59 today
+      const isPastResetTimeToday = (hours > 12) || (hours === 12 && minutes === 59 && seconds >= 59) || (hours === 12 && minutes > 59);
+
+      if (isPastResetTimeToday && lastResetDay !== todayStr) {
+        localStorage.setItem("seat_last_reset_day", todayStr);
+        performResetOrders("12:59:59 每日定時自動重置");
+      }
+    }
+
+    function updateStatistics() {
+      const totalStudentsCount = studentsData.length;
+      const orderedSeats = Object.keys(ordersData);
+      const orderedCount = orderedSeats.length;
+      const unorderedCount = totalStudentsCount - orderedCount;
+
+      let totalAmount = 0;
+      const itemCounts = {};
+
+      orderedSeats.forEach(seatNo => {
+        const order = ordersData[seatNo];
+        const p = parseInt(order.price || 0);
+        totalAmount += p;
+
+        if (!itemCounts[order.item]) {
+          itemCounts[order.item] = { count: 0, price: p, seats: [] };
+        }
+        itemCounts[order.item].count += 1;
+        itemCounts[order.item].seats.push(seatNo);
+      });
+
+      const statOrderedEl = document.getElementById("statOrderedCount");
+      const statTotalEl = document.getElementById("statTotalAmount");
+      const statUnorderedEl = document.getElementById("statUnorderedCount");
+
+      if (statOrderedEl) statOrderedEl.innerText = `${orderedCount} / ${totalStudentsCount} 人`;
+      if (statTotalEl) statTotalEl.innerText = `$${totalAmount.toLocaleString()} 元`;
+      if (statUnorderedEl) statUnorderedEl.innerText = `${unorderedCount} 人`;
+
+      // Update summary pills
+      const pillContainer = document.getElementById("itemSummaryList");
+      if (pillContainer) {
+        pillContainer.innerHTML = "";
+        if (orderedCount === 0) {
+          pillContainer.innerHTML = `<span style="color:#94a3b8; font-size:0.85rem;">尚無訂餐紀錄 (若學生已訂餐，請點擊上方「🔄 立即同步」或設定雲端)</span>`;
+        } else {
+          Object.keys(itemCounts).forEach(itemName => {
+            const data = itemCounts[itemName];
+            const subtotal = data.count * data.price;
+            const pill = document.createElement("div");
+            pill.className = "summary-pill";
+            pill.innerHTML = `
+              <span>🍱 <strong>${itemName}</strong></span>
+              <span class="qty-badge">${data.count} 份</span>
+              <span class="subtotal-text">小計 $${subtotal.toLocaleString()} 元</span>
+            `;
+            pillContainer.appendChild(pill);
+          });
+        }
+      }
+    }
+
+    // Copy formatted report for LINE
+    function copyLineSummary() {
+      const orderedSeats = Object.keys(ordersData);
+      if (orderedSeats.length === 0) {
+        alert("⚠️ 目前尚無任何學生訂餐紀錄！");
+        return;
+      }
+
+      let totalAmount = 0;
+      const itemCounts = {};
+
+      studentsData.forEach(student => {
+        const order = ordersData[student.座號];
+        if (order) {
+          const p = parseInt(order.price || 0);
+          totalAmount += p;
+          if (!itemCounts[order.item]) {
+            itemCounts[order.item] = { count: 0, price: p, names: [] };
+          }
+          itemCounts[order.item].count += 1;
+          itemCounts[order.item].names.push(`${student.座號}${student.姓名}`);
+        }
+      });
+
+      const dateStr = new Date().toLocaleDateString('zh-TW');
+      let text = `🍱【智光商工 資處一仁 點餐彙總報告】\n📅 日期：${dateStr}\n👥 訂餐人數：${orderedSeats.length} / ${studentsData.length} 人\n💰 總金額：$${totalAmount.toLocaleString()} 元\n\n📌【各餐點數量彙總】：\n`;
+
+      Object.keys(itemCounts).forEach(item => {
+        const info = itemCounts[item];
+        const sub = info.count * info.price;
+        text += `▪️ ${item}：${info.count} 份 ($${sub}元)\n   ↳ ${info.names.join('、')}\n`;
+      });
+
+      const unordered = studentsData.filter(s => !ordersData[s.座號]).map(s => `${s.座號}${s.姓名}`);
+      if (unordered.length > 0) {
+        text += `\n⏳【未訂餐名單 (${unordered.length}人)】：\n${unordered.join('、')}\n`;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert("✅ 已成功複製 LINE 點餐回報格式！可以直接貼到 LINE 群組或傳給老師。");
+      }).catch(() => {
+        prompt("請手動複製以下點餐回報文字：", text);
+      });
+    }
+
+    // Stats Table Modal Controls
+    function openStatsModal() {
+      const modal = document.getElementById("statsModalOverlay");
+      const tbody = document.getElementById("statsTableBody");
+      const summaryTbody = document.getElementById("itemSummaryTableBody");
+
+      tbody.innerHTML = "";
+      if (summaryTbody) summaryTbody.innerHTML = "";
+
+      let totalAmount = 0;
+      let orderedCount = 0;
+      const itemCounts = {};
+
+      studentsData.forEach(student => {
+        const order = ordersData[student.座號];
+        const tr = document.createElement("tr");
+
+        if (order) {
+          orderedCount++;
+          const p = parseInt(order.price || 0);
+          totalAmount += p;
+
+          if (!itemCounts[order.item]) {
+            itemCounts[order.item] = { count: 0, price: p, students: [] };
+          }
+          itemCounts[order.item].count += 1;
+          itemCounts[order.item].students.push(`${student.座號}號 ${student.姓名}`);
+
+          tr.innerHTML = `
+            <td>${student.座號}</td>
+            <td><strong>${student.姓名}</strong></td>
+            <td><span style="color:#10b981; font-weight:700;">✅ 已訂餐</span></td>
+            <td>🍱 ${order.item}</td>
+            <td><strong style="color:var(--primary-pink);">$${order.price}</strong></td>
+            <td style="color:#64748b; font-size:0.8rem;">${order.time}</td>
+          `;
+        } else {
+          tr.innerHTML = `
+            <td>${student.座號}</td>
+            <td>${student.姓名}</td>
+            <td><span style="color:#94a3b8;">⏳ 未訂餐</span></td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          `;
+        }
+        tbody.appendChild(tr);
+      });
+
+      // Populate item summary table (同一餐點數量與小計)
+      if (summaryTbody) {
+        const items = Object.keys(itemCounts);
+        if (items.length === 0) {
+          summaryTbody.innerHTML = `<tr><td colspan="5" style="color:#94a3b8; text-align:center; padding:15px;">目前尚無任何訂餐紀錄</td></tr>`;
+        } else {
+          items.forEach(itemName => {
+            const info = itemCounts[itemName];
+            const subtotal = info.count * info.price;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td><strong>🍱 ${itemName}</strong></td>
+              <td><span style="background:var(--primary-pink); color:white; padding:3px 10px; border-radius:12px; font-weight:900;">${info.count} 份</span></td>
+              <td>$${info.price} 元</td>
+              <td><strong style="color:#059669; font-size:0.95rem;">$${subtotal.toLocaleString()} 元</strong></td>
+              <td style="font-size:0.82rem; color:#475569; text-align:left; max-width:240px;">${info.students.join("、")}</td>
+            `;
+            summaryTbody.appendChild(tr);
+          });
+        }
+      }
+
+      document.getElementById("modalStatTotalStudents").innerText = studentsData.length;
+      document.getElementById("modalStatOrdered").innerText = orderedCount;
+      document.getElementById("modalStatTotalAmount").innerText = `$${totalAmount.toLocaleString()}`;
+
+      modal.classList.add("active");
+    }
+
+    function closeStatsModal(e) {
+      if (e.target.id === "statsModalOverlay") {
+        document.getElementById("statsModalOverlay").classList.remove("active");
+      }
+    }
+
+    function closeStatsModalDirect() {
+      document.getElementById("statsModalOverlay").classList.remove("active");
+    }
+
+    // Cloud Settings Modal Controls
+    function openCloudModal() {
+      const modal = document.getElementById("cloudModalOverlay");
+      const input = document.getElementById("cloudApiUrlInput");
+      input.value = cloudApiUrl || "";
+      modal.classList.add("active");
+    }
+
+    function closeCloudModal(e) {
+      if (e.target.id === "cloudModalOverlay") {
+        document.getElementById("cloudModalOverlay").classList.remove("active");
+      }
+    }
+
+    function closeCloudModalDirect() {
+      document.getElementById("cloudModalOverlay").classList.remove("active");
+    }
+
+    async function saveCloudSettings() {
+      const input = document.getElementById("cloudApiUrlInput");
+      const val = input.value.trim();
+      cloudApiUrl = val;
+      localStorage.setItem(CLOUD_API_KEY, cloudApiUrl);
+
+      if (cloudApiUrl) {
+        alert("🔄 正在測試連線至雲端後端...");
+        await fetchCloudOrders(true);
+      } else {
+        updateSyncStatusDisplay("local");
+        alert("已清除雲端網址，切換為本地模式。");
+      }
+      closeCloudModalDirect();
+    }
+
+    function clearCloudSettings() {
+      cloudApiUrl = "";
+      localStorage.removeItem(CLOUD_API_KEY);
+      document.getElementById("cloudApiUrlInput").value = "";
+      updateSyncStatusDisplay("local");
+      alert("✅ 已清空雲端設定！目前為純本地模式。");
+      closeCloudModalDirect();
+    }
+
+    function copyGasCode() {
+      const code = document.getElementById("gasCodeBox").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("✅ Google Apps Script 程式碼已成功複製到剪貼簿！請前往 Apps Script 貼上。");
+      }).catch(() => {
+        alert("請手動選取程式碼框中的文字複製。");
+      });
+    }
+
+    function closeModal(e) {
+      if (e.target.id === "modalOverlay") {
+        document.getElementById("modalOverlay").classList.remove("active");
+      }
+    }
+
+    function closeModalDirect() {
+      document.getElementById("modalOverlay").classList.remove("active");
+    }
+
+    // Initialize page on load
+    window.onload = async () => {
+      try {
+        const response = await fetch('seat.json');
+        if (response.ok) {
+          const json = await response.json();
+          if (Array.isArray(json) && json.length > 0) {
+            studentsData.length = 0;
+            studentsData.push(...json);
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const menuResp = await fetch('lunch_menu.json');
+        if (menuResp.ok) {
+          const menuJson = await menuResp.json();
+          if (Array.isArray(menuJson) && menuJson.length > 0) {
+            lunchMenu = menuJson;
+          }
+        }
+      } catch (e) {}
+
+      checkAutoReset();
+      setInterval(checkAutoReset, 1000);
+      updateTimeStatusDisplay();
+      renderSeats();
+
+      // Check cloud orders on startup and set periodic sync (every 6 seconds)
+      if (cloudApiUrl) {
+        fetchCloudOrders();
+      } else {
+        updateSyncStatusDisplay("local");
+      }
+      setInterval(() => {
+        if (cloudApiUrl) {
+          fetchCloudOrders();
+        }
+      }, 6000);
+    };
+  </script>
+</body>
+
+</html>

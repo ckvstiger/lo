@@ -1,0 +1,1 @@
+將seat.jpg裡面的內容轉成JSON格式
