@@ -787,75 +787,64 @@
       background: #f1f5f9;
       color: #475569;
       font-weight: 700;
-      position: sticky;
-      top: 0;
-      z-index: 2;
+      po    /* Cloud Modal Tabs & Diagnosis */
+    .cloud-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
     }
-    /* Cloud Sync Status */
-    .sync-status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+    .cloud-tab-btn {
+      padding: 8px 16px;
       border-radius: 20px;
+      border: 2px solid transparent;
+      background: #f1f5f9;
+      color: #475569;
       font-weight: 700;
-      font-size: 0.85rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s;
       cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
     }
-    .sync-connected {
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 2px solid #7dd3fc;
-    }
-    .sync-local {
-      background: #fef3c7;
-      color: #b45309;
-      border: 2px solid #fde68a;
-    }
-    .sync-error {
-      background: #fee2e2;
-      color: #b91c1c;
-      border: 2px solid #fca5a5;
-    }
-    .sync-spin {
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Code block in guide */
-    .code-box {
-      background: #1e293b;
-      color: #f8fafc;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.8rem;
-      text-align: left;
-      max-height: 180px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      user-select: text;
-      position: relative;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      padding: 4px 10px;
-      background: #334155;
+    .cloud-tab-btn.active {
+      background: var(--primary-pink);
       color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      font-weight: 700;
+      border-color: var(--primary-pink);
     }
-    .copy-btn:hover {
-      background: #475569;
+    .diag-box {
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-top: 12px;
+      display: none;
+    }
+    .diag-success {
+      background: #ecfdf5;
+      border: 2px solid #34d399;
+      color: #065f46;
+    }
+    .diag-error {
+      background: #fef2f2;
+      border: 2px solid #f87171;
+      color: #991b1b;
+    }
+    .diag-warning {
+      background: #fffbeb;
+      border: 2px solid #fcd34d;
+      color: #92400e;
+    }
+    .share-link-box {
+      background: #f0fdf4;
+      border: 2px dashed #4ade80;
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -886,14 +875,14 @@
       <div id="timeStatusBadge" class="time-status-badge status-open">
         🟢 訂餐開放中 (00:00~08:00, 13:00~24:00)
       </div>
-      <div id="syncStatusBadge" class="sync-status-badge sync-local" onclick="openCloudModal()" title="點擊設定雲端資料庫">
-        <span>🟡</span> <span>本地模式 (點此設定雲端同步)</span>
+      <div id="syncStatusBadge" class="sync-status-badge sync-connected" onclick="openStatusModal()" title="點擊管理 status.json 資料表">
+        <span>📄</span> <span>資料表: status.json 已載入</span>
       </div>
-      <button class="btn" onclick="fetchCloudOrders(true)" id="refreshBtn" title="手動重新整理最新訂單">
-        <span id="refreshIcon">🔄</span> 立即同步
+      <button class="btn" onclick="loadStatusJson(true)" id="refreshBtn" title="重新載入 status.json 最新資料">
+        <span id="refreshIcon">🔄</span> 讀取 status.json
       </button>
-      <button class="btn" onclick="openCloudModal()">
-        <span>☁️</span> 雲端同步設定
+      <button class="btn" style="background:#f0fdf4; color:#166534; border-color:#86efac;" onclick="openStatusModal()" title="匯出、下載、匯入或檢視 status.json">
+        <span>📄</span> status.json 管理
       </button>
       <button class="btn" onclick="toggleTestMode()" id="testModeBtn">
         <span>⚡</span> 測試模式：關閉
@@ -926,6 +915,7 @@
           <div class="stats-actions">
             <button class="btn btn-sm btn-primary" onclick="openStatsModal()">📋 全班明細對照表</button>
             <button class="btn btn-sm" style="background:#06c755; color:white; border-color:#06c755;" onclick="copyLineSummary()">💬 複製 LINE 回報格式</button>
+            <button class="btn btn-sm" style="background:#0284c7; color:white; border-color:#0284c7;" onclick="downloadStatusJson()">💾 下載 status.json</button>
             <button class="btn btn-sm" onclick="clearAllOrders()">🗑️ 重置所有訂餐紀錄</button>
           </div>
         </div>
@@ -1059,140 +1049,73 @@
       </div>
 
       <div style="margin-top: 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <button class="btn" style="background:#06c755; color:white; border-color:#06c755; font-size:0.85rem;" onclick="copyLineSummary()">
-          💬 複製成 LINE 回報文字
-        </button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn" style="background:#06c755; color:white; border-color:#06c755; font-size:0.85rem;" onclick="copyLineSummary()">
+            💬 複製成 LINE 回報文字
+          </button>
+          <button class="btn" style="background:#0284c7; color:white; border-color:#0284c7; font-size:0.85rem;" onclick="downloadStatusJson()">
+            💾 下載 status.json
+          </button>
+        </div>
         <button class="btn" style="display: inline-flex; font-weight:700;" onclick="closeStatsModalDirect()">關閉視窗</button>
       </div>
     </div>
   </div>
 
-  <!-- Cloud Synchronization Settings Modal -->
-  <div class="modal-overlay" id="cloudModalOverlay" onclick="closeCloudModal(event)">
-    <div class="modal-card modal-card-wide" style="max-width: 680px; text-align: left;">
-      <div class="modal-close" onclick="closeCloudModalDirect()">✕</div>
+  <!-- status.json Database Manager Modal -->
+  <div class="modal-overlay" id="statusModalOverlay" onclick="closeStatusModal(event)">
+    <div class="modal-card modal-card-wide" style="max-width: 720px; text-align: left;">
+      <div class="modal-close" onclick="closeStatusModalDirect()">✕</div>
       <h2 style="color: var(--primary-pink); font-weight: 900; margin-bottom: 8px; display:flex; align-items:center; gap:8px;">
-        ☁️ 雲端跨裝置即時同步設定
+        📄 status.json 資料表管理
       </h2>
-      <div style="font-size:0.88rem; color:#475569; margin-bottom:15px; line-height:1.5; background:#f8fafc; padding:10px 14px; border-radius:12px; border:1px solid #e2e8f0;">
-        💡 <strong>為什麼老師會看到 0 人？</strong><br>
-        因為 GitHub Pages 是靜態網頁，學生手機上的點餐只存在自己的瀏覽器（LocalStorage）中。<br>
-        設定<strong>雲端後端網址（推薦免費 Google 試算表 GAS）</strong>後，31 位學生的手機與老師的電腦就能<strong>秒級跨裝置即時同步</strong>！
+      
+      <div style="font-size:0.88rem; color:#334155; line-height:1.6; background:#f0fdf4; padding:12px 15px; border-radius:14px; border:1.5px solid #86efac; margin-bottom:15px;">
+        💡 <strong>資料表核心運作方式</strong>：<br>
+        本系統直接以 <code>status.json</code> 作為全班 31 人的點餐資料表。網頁載入時會自動讀取 <code>status.json</code> 並呈現每個座位的訂購狀態與統計。<br>
+        您可在此<strong>一鍵下載最新 status.json</strong>、<strong>複製 JSON 內容</strong>、或<strong>上傳/貼上 JSON 檔案進行更新</strong>。
       </div>
 
-      <div style="margin-bottom: 15px;">
-        <label style="font-weight: 700; font-size: 0.95rem; color: var(--text-color); display:block; margin-bottom: 6px;">
-          🔗 雲端同步 API 網址 (Google Apps Script Web App 或 Firebase/REST URL)：
-        </label>
-        <input type="text" id="cloudApiUrlInput" class="password-input" style="font-size:0.92rem; text-align:left; letter-spacing:0; padding:10px 14px; font-weight:normal;" placeholder="例如：https://script.google.com/macros/s/AKfycb.../exec">
-        <div style="display:flex; gap:10px; margin-top:8px;">
-          <button class="btn btn-primary btn-sm" onclick="saveCloudSettings()">💾 儲存並測試連線</button>
-          <button class="btn btn-sm" onclick="clearCloudSettings()">🗑️ 清除改用本地</button>
+      <!-- Action Buttons -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+        <button class="btn btn-primary" onclick="downloadStatusJson()">
+          💾 下載最新 status.json 檔案
+        </button>
+        <button class="btn" style="background:#0284c7; color:white; border-color:#0284c7;" onclick="copyStatusJsonText()">
+          📋 複製 status.json 內容
+        </button>
+        <button class="btn" onclick="document.getElementById('importFileInput').click()">
+          📥 選取檔案匯入 status.json
+        </button>
+        <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleFileImport(event)">
+        <button class="btn" onclick="loadStatusJson(true)">
+          🔄 重新讀取伺服器 status.json
+        </button>
+      </div>
+
+      <!-- JSON Viewer / Editor -->
+      <div style="margin-bottom: 10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <label style="font-weight: 700; font-size: 0.9rem; color: var(--text-color);">
+            📝 當前 status.json 資料內容預覽與編輯：
+          </label>
+          <span style="font-size:0.8rem; color:#64748b;">(可直接在此編輯後點擊下方套用)</span>
+        </div>
+        <textarea id="statusJsonTextarea" style="width:100%; height:200px; font-family:Consolas, Monaco, monospace; font-size:0.82rem; padding:10px; border-radius:12px; border:2px solid #cbd5e1; outline:none; resize:vertical;"></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button class="btn btn-sm btn-primary" onclick="applyStatusJsonTextarea()">
+            ✅ 套用上方 JSON 內容至座位表
+          </button>
         </div>
       </div>
 
-      <div style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-        <h4 style="color: var(--primary-pink); font-weight: 800; margin-bottom: 6px;">
-          📋 3 分鐘免費建立 Google 試算表後端 (超簡單教學)：
-        </h4>
-        <ol style="font-size:0.85rem; color:#334155; margin-left:20px; line-height:1.6;">
-          <li>開啟您的 <a href="https://sheets.new" target="_blank" style="color:#0284c7; font-weight:700;">Google 試算表 (點此新建)</a>。</li>
-          <li>點擊上方選單的 <strong>「擴充功能」 ➔ 「Apps Script」</strong>。</li>
-          <li>將下方完整程式碼貼上並覆蓋原內容，點擊「儲存 💾」。</li>
-          <li>右上角點 <strong>「部署」 ➔ 「新增部署」</strong> ➔ 選擇類型「網頁應用程式」 ➔ 存取權限選<strong>「所有人 (Anyone)」</strong> ➔ 點「部署」。</li>
-          <li>複製生成的<strong>「網頁應用程式網址 (Web App URL)」</strong>，貼回上方輸入框即可！</li>
-        </ol>
-
-        <div style="position:relative; margin-top:10px;">
-          <div class="code-box" id="gasCodeBox">// Google Apps Script 程式碼 (直接複製貼上)
-const SHEET_NAME = "點餐明細";
-
-function doGet(e) {
-  const sheet = getOrCreateSheet();
-  const data = sheet.getDataRange().getValues();
-  const orders = {};
-  for (let i = 1; i < data.length; i++) {
-    const seat = String(data[i][0]).padStart(2, '0');
-    if (seat && data[i][2]) {
-      orders[seat] = {
-        name: data[i][1],
-        item: data[i][2],
-        price: data[i][3],
-        time: data[i][4]
-      };
-    }
-  }
-  return ContentService.createTextOutput(JSON.stringify({ status: "success", orders: orders }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doPost(e) {
-  try {
-    const postData = JSON.parse(e.postData.contents);
-    const action = postData.action;
-    const sheet = getOrCreateSheet();
-    
-    if (action === "order") {
-      const seat = String(postData.seat).padStart(2, '0');
-      const name = postData.name;
-      const item = postData.item;
-      const price = postData.price;
-      const time = postData.time;
-      
-      const data = sheet.getDataRange().getValues();
-      let foundRow = -1;
-      for (let i = 1; i < data.length; i++) {
-        if (String(data[i][0]).padStart(2, '0') === seat) {
-          foundRow = i + 1;
-          break;
-        }
-      }
-      
-      if (foundRow > 0) {
-        sheet.getRange(foundRow, 1, 1, 5).setValues([[seat, name, item, price, time]]);
-      } else {
-        sheet.appendRow([seat, name, item, price, time]);
-      }
-      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "訂單已儲存" }))
-        .setMimeType(ContentService.MimeType.JSON);
-    } else if (action === "cancel") {
-      const seat = String(postData.seat).padStart(2, '0');
-      const data = sheet.getDataRange().getValues();
-      for (let i = 1; i < data.length; i++) {
-        if (String(data[i][0]).padStart(2, '0') === seat) {
-          sheet.deleteRow(i + 1);
-          break;
-        }
-      }
-      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "訂單已取消" }))
-        .setMimeType(ContentService.MimeType.JSON);
-    } else if (action === "reset") {
-      sheet.clearContents();
-      sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);
-      return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "全部重置完成" }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ status: "error", error: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function getOrCreateSheet() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);
-  }
-  return sheet;
-}</div>
-          <button class="copy-btn" onclick="copyGasCode()">📋 複製 GAS 程式碼</button>
-        </div>
+      <div style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size:0.85rem; color:#475569; line-height:1.5;">
+        📌 <strong>更新 GitHub 上的 status.json 指引</strong>：<br>
+        點擊上方「📋 複製 status.json 內容」 ➔ 前往 GitHub 倉庫點擊 <code>status.json</code> ➔ 點編輯鉛筆圖示 ➔ 貼上並 Commit 變更，所有造訪網頁的人就會看到最新的點餐紀錄！
       </div>
 
       <div style="margin-top: 15px; text-align: right;">
-        <button class="btn" onclick="closeCloudModalDirect()">關閉</button>
+        <button class="btn" onclick="closeStatusModalDirect()">關閉視窗</button>
       </div>
     </div>
   </div>
@@ -1250,23 +1173,16 @@ function getOrCreateSheet() {
     ];
     let lunchMenu = [...defaultLunchMenu];
 
-    // Orders state (stored in localStorage and synced with Cloud)
     const STORAGE_KEY = "seat_class_orders_v1";
-    const CLOUD_API_KEY = "seat_cloud_api_url";
-    
-    // Preset default Cloud URL (Users can configure in settings or embed here)
-    let cloudApiUrl = localStorage.getItem(CLOUD_API_KEY) || "";
     let ordersData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
 
-    // Test mode state (bypasses 00:00~08:00 & 13:00~24:00 time restriction)
+    // Test mode state
     let isTestMode = false;
     let currentStudent = null;
     let selectedMenuItem = null;
-    let isFetchingCloud = false;
 
     // Cute animal avatars list
     const cuteAvatars = ["🐱", "🐶", "🐰", "🐻", "🦊", "🐼", "🐨", "🐥", "🐹", "🐸", "🦄", "🦔", "🐧", "🐱‍👤", "🐙"];
-
     const SEATS_PER_ROW = 6;
 
     // Check if ordering is open (00:00~08:00 and 13:00~24:00)
@@ -1294,16 +1210,16 @@ function getOrCreateSheet() {
       if (!badge) return;
       if (status === "connected") {
         badge.className = "sync-status-badge sync-connected";
-        badge.innerHTML = `<span>🟢</span> <span>${text || '雲端同步正常'}</span>`;
+        badge.innerHTML = `<span>📄</span> <span>${text || '資料表: status.json 已載入'}</span>`;
       } else if (status === "syncing") {
         badge.className = "sync-status-badge sync-connected";
-        badge.innerHTML = `<span class="sync-spin">🔄</span> <span>同步中...</span>`;
+        badge.innerHTML = `<span class="sync-spin">🔄</span> <span>讀取中...</span>`;
       } else if (status === "error") {
         badge.className = "sync-status-badge sync-error";
-        badge.innerHTML = `<span>🔴</span> <span>${text || '同步異常 (點此檢查)'}</span>`;
+        badge.innerHTML = `<span>🔴</span> <span>${text || '讀取失敗'}</span>`;
       } else {
         badge.className = "sync-status-badge sync-local";
-        badge.innerHTML = `<span>🟡</span> <span>本地模式 (點此設定雲端同步)</span>`;
+        badge.innerHTML = `<span>🟡</span> <span>本地模式</span>`;
       }
     }
 
@@ -1319,86 +1235,184 @@ function getOrCreateSheet() {
       updateTimeStatusDisplay();
     }
 
-    // Cloud Data Sync Engine
-    async function fetchCloudOrders(isManual = false) {
-      if (!cloudApiUrl) {
-        updateSyncStatusDisplay("local");
-        return;
-      }
+    // Generate full status.json object for all 31 students
+    function generateStatusJsonObject() {
+      const result = {};
+      studentsData.forEach(student => {
+        const order = ordersData[student.座號];
+        result[student.座號] = {
+          座號: student.座號,
+          姓名: student.姓名,
+          訂購餐點: order ? (order.item || order.訂購餐點 || "") : "",
+          金額: order ? (parseInt(order.price || order.金額 || 0)) : 0,
+          訂餐時間: order ? (order.time || order.訂餐時間 || "") : ""
+        };
+      });
+      return result;
+    }
 
-      if (isFetchingCloud) return;
-      isFetchingCloud = true;
-
+    // Load status.json from server
+    async function loadStatusJson(isManual = false) {
       const refreshIcon = document.getElementById("refreshIcon");
       if (refreshIcon) refreshIcon.classList.add("sync-spin");
       if (isManual) updateSyncStatusDisplay("syncing");
 
       try {
-        const separator = cloudApiUrl.includes('?') ? '&' : '?';
-        const urlWithTimestamp = `${cloudApiUrl}${separator}_t=${Date.now()}`;
-        const response = await fetch(urlWithTimestamp);
-        
+        const response = await fetch(`status.json?_t=${Date.now()}`);
         if (response.ok) {
-          const resJson = await response.json();
-          let newOrders = null;
+          const json = await response.json();
+          let count = 0;
+          const parsedOrders = {};
 
-          if (resJson && resJson.orders) {
-            newOrders = resJson.orders;
-          } else if (typeof resJson === "object" && !Array.isArray(resJson)) {
-            newOrders = resJson;
+          if (Array.isArray(json)) {
+            // Array format: [ { 座號: "01", 訂購餐點: "涼麵", 金額: 50, 訂餐時間: "..." } ]
+            json.forEach(item => {
+              const seat = String(item.座號 || item.seat || "").padStart(2, '0');
+              const itemName = item.訂購餐點 || item.item;
+              if (seat && itemName) {
+                parsedOrders[seat] = {
+                  name: item.姓名 || item.name || "",
+                  item: itemName,
+                  price: parseInt(item.金額 || item.price || 0),
+                  time: item.訂餐時間 || item.time || ""
+                };
+                count++;
+              }
+            });
+          } else if (typeof json === "object" && json !== null) {
+            // Map format: { "01": { 訂購餐點: "涼麵", 金額: 50, 訂餐時間: "..." } }
+            Object.keys(json).forEach(key => {
+              const item = json[key];
+              const seat = String(item.座號 || item.seat || key).padStart(2, '0');
+              const itemName = item.訂購餐點 || item.item;
+              if (seat && itemName) {
+                parsedOrders[seat] = {
+                  name: item.姓名 || item.name || "",
+                  item: itemName,
+                  price: parseInt(item.金額 || item.price || 0),
+                  time: item.訂餐時間 || item.time || ""
+                };
+                count++;
+              }
+            });
           }
 
-          if (newOrders) {
-            ordersData = newOrders;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
-            renderSeats();
-            
-            const now = new Date();
-            const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
-            updateSyncStatusDisplay("connected", `雲端已同步 (${timeStr})`);
-            const lastSyncEl = document.getElementById("lastSyncTime");
-            if (lastSyncEl) lastSyncEl.innerText = `· 最後同步: ${timeStr}`;
-            
-            if (isManual) {
-              alert("✅ 雲端資料同步成功！已更新全班最新點餐名單。");
-            }
+          ordersData = parsedOrders;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+          renderSeats();
+
+          const now = new Date();
+          const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+          updateSyncStatusDisplay("connected", `status.json 已載入 (${timeStr})`);
+          const lastSyncEl = document.getElementById("lastSyncTime");
+          if (lastSyncEl) lastSyncEl.innerText = `· 讀取時間: ${timeStr}`;
+
+          if (isManual) {
+            alert(`✅ 成功讀取 status.json！\n已載入 ${count} 筆已完成訂餐紀錄。`);
           }
         } else {
           throw new Error(`HTTP ${response.status}`);
         }
       } catch (err) {
-        console.warn("雲端同步失敗，切回本地紀錄:", err);
-        updateSyncStatusDisplay("error", "雲端連線失敗 (點此檢查)");
+        console.warn("讀取 status.json 失敗，使用本地紀錄:", err);
+        updateSyncStatusDisplay("connected", "使用本地 status 資料");
         if (isManual) {
-          alert(`⚠️ 雲端連線失敗：${err.message}\n請檢查「雲端同步設定」中的網址是否正確。`);
+          alert(`⚠️ 無法讀取 status.json 檔案 (${err.message})\n目前將使用瀏覽器內的點餐紀錄。`);
         }
       } finally {
-        isFetchingCloud = false;
         if (refreshIcon) refreshIcon.classList.remove("sync-spin");
       }
     }
 
-    async function sendCloudAction(payload) {
-      if (!cloudApiUrl) {
-        return false;
-      }
+    // Download status.json file
+    function downloadStatusJson() {
+      const fullObj = generateStatusJsonObject();
+      const jsonStr = JSON.stringify(fullObj, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "status.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Copy status.json text
+    function copyStatusJsonText() {
+      const fullObj = generateStatusJsonObject();
+      const jsonStr = JSON.stringify(fullObj, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        alert("✅ 已成功複製 status.json 完整內容到剪貼簿！\n可直接至 GitHub 編輯 status.json 貼上。");
+      }).catch(() => {
+        prompt("請手動選取並複製以下 status.json 內容：", jsonStr);
+      });
+    }
+
+    // Import status.json file
+    function handleFileImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const json = JSON.parse(evt.target.result);
+          applyImportedJson(json);
+          alert("✅ 成功從檔案匯入 status.json 資料！");
+        } catch(err) {
+          alert("❌ 檔案格式錯誤，無法解析 JSON：" + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Apply JSON text from textarea
+    function applyStatusJsonTextarea() {
+      const textarea = document.getElementById("statusJsonTextarea");
       try {
-        // Use text/plain to avoid CORS preflight issues with Google Apps Script
-        await fetch(cloudApiUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify(payload)
-        });
-        // Schedule quick re-sync to confirm data
-        setTimeout(() => fetchCloudOrders(false), 800);
-        return true;
-      } catch (e) {
-        console.error("發送至雲端失敗:", e);
-        return false;
+        const json = JSON.parse(textarea.value);
+        applyImportedJson(json);
+        alert("✅ 已成功套用上方 status.json 內容至全班座位表！");
+        closeStatusModalDirect();
+      } catch (err) {
+        alert("❌ JSON 格式錯誤：" + err.message);
       }
+    }
+
+    function applyImportedJson(json) {
+      const parsedOrders = {};
+      if (Array.isArray(json)) {
+        json.forEach(item => {
+          const seat = String(item.座號 || item.seat || "").padStart(2, '0');
+          const itemName = item.訂購餐點 || item.item;
+          if (seat && itemName) {
+            parsedOrders[seat] = {
+              name: item.姓名 || item.name || "",
+              item: itemName,
+              price: parseInt(item.金額 || item.price || 0),
+              time: item.訂餐時間 || item.time || ""
+            };
+          }
+        });
+      } else if (typeof json === "object" && json !== null) {
+        Object.keys(json).forEach(key => {
+          const item = json[key];
+          const seat = String(item.座號 || item.seat || key).padStart(2, '0');
+          const itemName = item.訂購餐點 || item.item;
+          if (seat && itemName) {
+            parsedOrders[seat] = {
+              name: item.姓名 || item.name || "",
+              item: itemName,
+              price: parseInt(item.金額 || item.price || 0),
+              time: item.訂餐時間 || item.time || ""
+            };
+          }
+        });
+      }
+      ordersData = parsedOrders;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+      renderSeats();
     }
 
     // Render Seats Grid
@@ -1638,7 +1652,7 @@ function getOrCreateSheet() {
       });
     }
 
-    async function confirmOrder() {
+    function confirmOrder() {
       if (!currentStudent) return;
       if (!selectedMenuItem) {
         alert("請先選擇您想訂購的餐點！");
@@ -1659,36 +1673,20 @@ function getOrCreateSheet() {
         time: timeStr
       };
 
-      // 1. Save locally
       localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
       renderSeats();
       closeModalDirect();
 
-      // 2. Send to Cloud (if configured)
-      sendCloudAction({
-        action: "order",
-        seat: currentStudent.座號,
-        name: currentStudent.姓名,
-        item: selectedMenuItem.餐點,
-        price: selectedMenuItem.金額,
-        time: timeStr
-      });
-
-      alert(`🎉 訂餐成功！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)`);
+      alert(`🎉 訂餐成功！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)\n\n💡 提示：您可點擊上方「📄 status.json 管理」匯出或下載最新的資料表檔案。`);
     }
 
-    async function removeOrder() {
+    function removeOrder() {
       if (!currentStudent) return;
       if (confirm(`確定要取消 ${currentStudent.姓名} 的點餐紀錄嗎？`)) {
         delete ordersData[currentStudent.座號];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
         renderSeats();
         closeModalDirect();
-
-        sendCloudAction({
-          action: "cancel",
-          seat: currentStudent.座號
-        });
       }
     }
 
@@ -1696,7 +1694,6 @@ function getOrCreateSheet() {
       ordersData = {};
       localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
       renderSeats();
-      sendCloudAction({ action: "reset" });
       console.log(`[訂餐系統] 已於 ${new Date().toLocaleString()} 完成全班訂餐紀錄重置 (${reason})`);
     }
 
@@ -1742,14 +1739,15 @@ function getOrCreateSheet() {
 
       orderedSeats.forEach(seatNo => {
         const order = ordersData[seatNo];
-        const p = parseInt(order.price || 0);
+        const p = parseInt(order.price || order.金額 || 0);
         totalAmount += p;
 
-        if (!itemCounts[order.item]) {
-          itemCounts[order.item] = { count: 0, price: p, seats: [] };
+        const itemName = order.item || order.訂購餐點;
+        if (!itemCounts[itemName]) {
+          itemCounts[itemName] = { count: 0, price: p, seats: [] };
         }
-        itemCounts[order.item].count += 1;
-        itemCounts[order.item].seats.push(seatNo);
+        itemCounts[itemName].count += 1;
+        itemCounts[itemName].seats.push(seatNo);
       });
 
       const statOrderedEl = document.getElementById("statOrderedCount");
@@ -1765,7 +1763,7 @@ function getOrCreateSheet() {
       if (pillContainer) {
         pillContainer.innerHTML = "";
         if (orderedCount === 0) {
-          pillContainer.innerHTML = `<span style="color:#94a3b8; font-size:0.85rem;">尚無訂餐紀錄 (若學生已訂餐，請點擊上方「🔄 立即同步」或設定雲端)</span>`;
+          pillContainer.innerHTML = `<span style="color:#94a3b8; font-size:0.85rem;">尚無訂餐紀錄 (資料表: status.json)</span>`;
         } else {
           Object.keys(itemCounts).forEach(itemName => {
             const data = itemCounts[itemName];
@@ -1797,13 +1795,14 @@ function getOrCreateSheet() {
       studentsData.forEach(student => {
         const order = ordersData[student.座號];
         if (order) {
-          const p = parseInt(order.price || 0);
+          const p = parseInt(order.price || order.金額 || 0);
           totalAmount += p;
-          if (!itemCounts[order.item]) {
-            itemCounts[order.item] = { count: 0, price: p, names: [] };
+          const itemName = order.item || order.訂購餐點;
+          if (!itemCounts[itemName]) {
+            itemCounts[itemName] = { count: 0, price: p, names: [] };
           }
-          itemCounts[order.item].count += 1;
-          itemCounts[order.item].names.push(`${student.座號}${student.姓名}`);
+          itemCounts[itemName].count += 1;
+          itemCounts[itemName].names.push(`${student.座號}${student.姓名}`);
         }
       });
 
@@ -1847,22 +1846,23 @@ function getOrCreateSheet() {
 
         if (order) {
           orderedCount++;
-          const p = parseInt(order.price || 0);
+          const p = parseInt(order.price || order.金額 || 0);
           totalAmount += p;
+          const itemName = order.item || order.訂購餐點;
 
-          if (!itemCounts[order.item]) {
-            itemCounts[order.item] = { count: 0, price: p, students: [] };
+          if (!itemCounts[itemName]) {
+            itemCounts[itemName] = { count: 0, price: p, students: [] };
           }
-          itemCounts[order.item].count += 1;
-          itemCounts[order.item].students.push(`${student.座號}號 ${student.姓名}`);
+          itemCounts[itemName].count += 1;
+          itemCounts[itemName].students.push(`${student.座號}號 ${student.姓名}`);
 
           tr.innerHTML = `
             <td>${student.座號}</td>
             <td><strong>${student.姓名}</strong></td>
             <td><span style="color:#10b981; font-weight:700;">✅ 已訂餐</span></td>
-            <td>🍱 ${order.item}</td>
-            <td><strong style="color:var(--primary-pink);">$${order.price}</strong></td>
-            <td style="color:#64748b; font-size:0.8rem;">${order.time}</td>
+            <td>🍱 ${itemName}</td>
+            <td><strong style="color:var(--primary-pink);">$${p}</strong></td>
+            <td style="color:#64748b; font-size:0.8rem;">${order.time || order.訂餐時間 || ""}</td>
           `;
         } else {
           tr.innerHTML = `
@@ -1877,7 +1877,7 @@ function getOrCreateSheet() {
         tbody.appendChild(tr);
       });
 
-      // Populate item summary table (同一餐點數量與小計)
+      // Populate item summary table
       if (summaryTbody) {
         const items = Object.keys(itemCounts);
         if (items.length === 0) {
@@ -1916,56 +1916,23 @@ function getOrCreateSheet() {
       document.getElementById("statsModalOverlay").classList.remove("active");
     }
 
-    // Cloud Settings Modal Controls
-    function openCloudModal() {
-      const modal = document.getElementById("cloudModalOverlay");
-      const input = document.getElementById("cloudApiUrlInput");
-      input.value = cloudApiUrl || "";
+    // status.json Modal Controls
+    function openStatusModal() {
+      const modal = document.getElementById("statusModalOverlay");
+      const textarea = document.getElementById("statusJsonTextarea");
+      const fullObj = generateStatusJsonObject();
+      textarea.value = JSON.stringify(fullObj, null, 2);
       modal.classList.add("active");
     }
 
-    function closeCloudModal(e) {
-      if (e.target.id === "cloudModalOverlay") {
-        document.getElementById("cloudModalOverlay").classList.remove("active");
+    function closeStatusModal(e) {
+      if (e.target.id === "statusModalOverlay") {
+        document.getElementById("statusModalOverlay").classList.remove("active");
       }
     }
 
-    function closeCloudModalDirect() {
-      document.getElementById("cloudModalOverlay").classList.remove("active");
-    }
-
-    async function saveCloudSettings() {
-      const input = document.getElementById("cloudApiUrlInput");
-      const val = input.value.trim();
-      cloudApiUrl = val;
-      localStorage.setItem(CLOUD_API_KEY, cloudApiUrl);
-
-      if (cloudApiUrl) {
-        alert("🔄 正在測試連線至雲端後端...");
-        await fetchCloudOrders(true);
-      } else {
-        updateSyncStatusDisplay("local");
-        alert("已清除雲端網址，切換為本地模式。");
-      }
-      closeCloudModalDirect();
-    }
-
-    function clearCloudSettings() {
-      cloudApiUrl = "";
-      localStorage.removeItem(CLOUD_API_KEY);
-      document.getElementById("cloudApiUrlInput").value = "";
-      updateSyncStatusDisplay("local");
-      alert("✅ 已清空雲端設定！目前為純本地模式。");
-      closeCloudModalDirect();
-    }
-
-    function copyGasCode() {
-      const code = document.getElementById("gasCodeBox").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        alert("✅ Google Apps Script 程式碼已成功複製到剪貼簿！請前往 Apps Script 貼上。");
-      }).catch(() => {
-        alert("請手動選取程式碼框中的文字複製。");
-      });
+    function closeStatusModalDirect() {
+      document.getElementById("statusModalOverlay").classList.remove("active");
     }
 
     function closeModal(e) {
@@ -1980,8 +1947,9 @@ function getOrCreateSheet() {
 
     // Initialize page on load
     window.onload = async () => {
+      // 1. Load seat.json
       try {
-        const response = await fetch('seat.json');
+        const response = await fetch(`seat.json?_t=${Date.now()}`);
         if (response.ok) {
           const json = await response.json();
           if (Array.isArray(json) && json.length > 0) {
@@ -1991,8 +1959,9 @@ function getOrCreateSheet() {
         }
       } catch (e) {}
 
+      // 2. Load lunch_menu.json
       try {
-        const menuResp = await fetch('lunch_menu.json');
+        const menuResp = await fetch(`lunch_menu.json?_t=${Date.now()}`);
         if (menuResp.ok) {
           const menuJson = await menuResp.json();
           if (Array.isArray(menuJson) && menuJson.length > 0) {
@@ -2004,19 +1973,10 @@ function getOrCreateSheet() {
       checkAutoReset();
       setInterval(checkAutoReset, 1000);
       updateTimeStatusDisplay();
-      renderSeats();
 
-      // Check cloud orders on startup and set periodic sync (every 6 seconds)
-      if (cloudApiUrl) {
-        fetchCloudOrders();
-      } else {
-        updateSyncStatusDisplay("local");
-      }
-      setInterval(() => {
-        if (cloudApiUrl) {
-          fetchCloudOrders();
-        }
-      }, 6000);
+      // 3. Load status.json as the master data table
+      await loadStatusJson();
+      renderSeats();
     };
   </script>
 </body>
