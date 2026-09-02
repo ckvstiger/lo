@@ -554,6 +554,46 @@
       border: 2px solid #fca5a5;
     }
 
+    /* Cloud Sync Status Badge */
+    .sync-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .sync-status-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .sync-connected {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 2px solid #34d399;
+    }
+    .sync-local {
+      background: #fefce8;
+      color: #854d0e;
+      border: 2px solid #fde047;
+    }
+    .sync-error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 2px solid #f87171;
+    }
+    .sync-spin {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
     /* Stats Dashboard */
     .stats-dashboard {
       background: rgba(255, 255, 255, 0.88);
@@ -875,14 +915,14 @@
       <div id="timeStatusBadge" class="time-status-badge status-open">
         🟢 訂餐開放中 (00:00~08:00, 13:00~24:00)
       </div>
-      <div id="syncStatusBadge" class="sync-status-badge sync-connected" onclick="openStatusModal()" title="點擊管理 status.json 資料表">
-        <span>📄</span> <span>資料表: status.json 已載入</span>
+      <div id="syncStatusBadge" class="sync-status-badge sync-local" onclick="openCloudModal()" title="點擊設定 Google 試算表雲端同步">
+        <span>🟡</span> <span>本地模式 (點此設定雲端同步)</span>
       </div>
-      <button class="btn" onclick="loadStatusJson(true)" id="refreshBtn" title="重新載入 status.json 最新資料">
-        <span id="refreshIcon">🔄</span> 讀取 status.json
+      <button class="btn" onclick="fetchCloudOrders(true)" id="refreshBtn" title="手動同步最新雲端點餐紀錄">
+        <span id="refreshIcon">🔄</span> 立即同步
       </button>
-      <button class="btn" style="background:#f0fdf4; color:#166534; border-color:#86efac;" onclick="openStatusModal()" title="匯出、下載、匯入或檢視 status.json">
-        <span>📄</span> status.json 管理
+      <button class="btn" style="background:#fdf2f8; color:#be185d; border-color:#f472b6;" onclick="openCloudModal()" title="設定 Google 試算表同步網址">
+        <span>☁️</span> 雲端同步設定
       </button>
       <button class="btn" onclick="toggleTestMode()" id="testModeBtn">
         <span>⚡</span> 測試模式：關閉
@@ -895,6 +935,9 @@
       </button>
       <button class="btn" onclick="openStatsModal()">
         <span>📊</span> 全班訂餐明細
+      </button>
+      <button class="btn" style="background:#f0fdf4; color:#166534; border-color:#86efac;" onclick="openStatusModal()" title="匯出、下載、匯入或檢視 status.json">
+        <span>📄</span> status.json 管理
       </button>
       <button class="btn" onclick="window.print()">
         <span>🖨️</span> 列印
@@ -1120,6 +1163,61 @@
     </div>
   </div>
 
+  <!-- Cloud Sync Settings Modal -->
+  <div class="modal-overlay" id="cloudModalOverlay" onclick="closeCloudModal(event)">
+    <div class="modal-card modal-card-wide" style="max-width: 760px; text-align: left;">
+      <div class="modal-close" onclick="closeCloudModalDirect()">✕</div>
+      <h2 style="color: var(--primary-pink); font-weight: 900; margin-bottom: 8px; display:flex; align-items:center; gap:8px;">
+        ☁️ Google 試算表雲端同步設定
+      </h2>
+      
+      <div style="font-size:0.9rem; color:#334155; line-height:1.6; background:#f0fdf4; padding:12px 16px; border-radius:16px; border:1.5px solid #86efac; margin-bottom:16px;">
+        🌸 <strong>為什麼需要雲端同步？</strong><br>
+        GitHub Pages 為靜態網站，學生在手機點餐的資料若無雲端後端，只會留在各自手機中。<br>
+        只要綁定您的 <strong>Google 試算表 (Google Apps Script)</strong>，31 位學生的手機訂單將<strong>即時秒級傳入試算表</strong>，老師電腦也會<strong>自動同步全班最新點餐名單與金額</strong>！
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-weight: 700; font-size: 0.95rem; color: var(--text-color); display:block; margin-bottom:6px;">
+          🔗 Google Apps Script 網頁應用程式網址 (Web App URL)：
+        </label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="cloudApiUrlInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec" 
+                 style="flex:1; padding:10px 14px; border-radius:12px; border:2px solid #cbd5e1; font-size:0.9rem; outline:none; font-family:Consolas, Monaco, monospace;">
+          <button class="btn btn-primary" onclick="saveCloudSettings()">💾 儲存並測試連線</button>
+          <button class="btn" style="color:#ef4444; border-color:#fca5a5;" onclick="clearCloudSettings()">清空</button>
+        </div>
+        <div id="cloudDiagBox" class="diag-box"></div>
+      </div>
+
+      <!-- Quick 3-Step Setup Instructions -->
+      <div style="background:#fff7ed; border:1.5px solid #fdba74; border-radius:16px; padding:14px 18px; margin-bottom:15px; font-size:0.88rem; color:#9a3412; line-height:1.6;">
+        <div style="font-weight:800; font-size:0.95rem; margin-bottom:6px; color:#c2410c;">
+          🚀 3 分鐘快速建立 Google 試算表後端：
+        </div>
+        <ol style="margin-left: 20px;">
+          <li>用 Google 帳號開啟 <a href="https://sheets.new" target="_blank" style="color:#2563eb; font-weight:700; text-decoration:underline;">Google 試算表 (點此新建空白試算表)</a>，命名為「資處一仁點餐紀錄表」。</li>
+          <li>點上方選單 <strong>「擴充功能」➔「Apps Script」</strong>，刪除原本內容，貼上後端程式碼。</li>
+          <li>點右上角 <strong>「部署」➔「新增部署」</strong> ➔ 齒輪選「網頁應用程式」 ➔ 誰可以存取務必選 <strong>「所有人 (Anyone)」</strong> ➔ 點部署並複製網址貼至上方！</li>
+        </ol>
+        <div style="margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <button class="btn btn-sm" style="background:#ea580c; color:white; border-color:#ea580c;" onclick="copyGasCode()">
+            📋 點此一鍵複製 Apps Script 後端程式碼
+          </button>
+          <span style="font-size:0.82rem; color:#7c2d12;">(已同步儲存於專案內 <code>google_apps_script.js</code>)</span>
+        </div>
+      </div>
+
+      <!-- Hidden GAS Code for copy -->
+      <pre id="gasCodeBox" style="display:none;"></pre>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+        <span style="font-size:0.82rem; color:#64748b;">💡 老師也可以直接將網址寫入 <code>seat.html</code> 的 <code>DEFAULT_GAS_URL</code>，全班同學開啟即自動連線！</span>
+        <button class="btn" onclick="closeCloudModalDirect()">關閉視窗</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // 31 Students Data from seat.json
     const studentsData = [
@@ -1173,6 +1271,13 @@
     ];
     let lunchMenu = [...defaultLunchMenu];
 
+    // ⭐️【老師請注意】：部署 Google Apps Script 後，將網址貼在此引號中，全班學生手機就會自動連上同一個 Google 試算表！
+    // 例如："https://script.google.com/macros/s/AKfycb.../exec"
+    const DEFAULT_GAS_URL = ""; 
+    const CLOUD_API_KEY = "seat_cloud_api_url";
+    let cloudApiUrl = localStorage.getItem(CLOUD_API_KEY) || DEFAULT_GAS_URL;
+    let isFetchingCloud = false;
+
     const STORAGE_KEY = "seat_class_orders_v1";
     let ordersData = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
 
@@ -1210,16 +1315,90 @@
       if (!badge) return;
       if (status === "connected") {
         badge.className = "sync-status-badge sync-connected";
-        badge.innerHTML = `<span>📄</span> <span>${text || '資料表: status.json 已載入'}</span>`;
+        badge.innerHTML = `<span>🟢</span> <span>${text || 'Google 試算表已同步'}</span>`;
       } else if (status === "syncing") {
         badge.className = "sync-status-badge sync-connected";
-        badge.innerHTML = `<span class="sync-spin">🔄</span> <span>讀取中...</span>`;
+        badge.innerHTML = `<span class="sync-spin">🔄</span> <span>${text || '同步中...'}</span>`;
       } else if (status === "error") {
         badge.className = "sync-status-badge sync-error";
-        badge.innerHTML = `<span>🔴</span> <span>${text || '讀取失敗'}</span>`;
+        badge.innerHTML = `<span>🔴</span> <span>${text || '雲端連線失敗'}</span>`;
       } else {
         badge.className = "sync-status-badge sync-local";
-        badge.innerHTML = `<span>🟡</span> <span>本地模式</span>`;
+        badge.innerHTML = `<span>🟡</span> <span>${text || '本地模式 (點此設定雲端)'}</span>`;
+      }
+    }
+
+    // Fetch orders from Google Apps Script
+    async function fetchCloudOrders(isManual = false) {
+      if (!cloudApiUrl) {
+        updateSyncStatusDisplay("local", "本地模式 (未設定雲端)");
+        return;
+      }
+
+      if (isFetchingCloud) return;
+      isFetchingCloud = true;
+
+      const refreshIcon = document.getElementById("refreshIcon");
+      if (refreshIcon) refreshIcon.classList.add("sync-spin");
+      if (isManual) updateSyncStatusDisplay("syncing", "同步中...");
+
+      try {
+        const separator = cloudApiUrl.includes('?') ? '&' : '?';
+        const urlWithTimestamp = `${cloudApiUrl}${separator}_t=${Date.now()}`;
+        const response = await fetch(urlWithTimestamp);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        if (result.status === "success" && result.orders) {
+          ordersData = result.orders;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
+          renderSeats();
+
+          const now = new Date();
+          const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+          updateSyncStatusDisplay("connected", `Google 試算表已同步 (${timeStr})`);
+          const lastSyncEl = document.getElementById("lastSyncTime");
+          if (lastSyncEl) {
+            const count = Object.keys(ordersData).length;
+            lastSyncEl.innerText = `· 雲端同步: ${timeStr} (${count} 筆已訂)`;
+          }
+
+          if (isManual) {
+            const count = Object.keys(ordersData).length;
+            alert(`✅ 雲端同步成功！\n已從 Google 試算表載入 ${count} 筆點餐資料。`);
+          }
+        } else {
+          throw new Error(result.message || "回傳格式不正確");
+        }
+      } catch (err) {
+        console.warn("雲端讀取失敗，使用本地資料:", err);
+        updateSyncStatusDisplay("error", "雲端連線失敗 (點此檢查)");
+        if (isManual) {
+          alert(`⚠️ 無法連線至 Google 試算表 (${err.message})\n\n請檢查：\n1. 部署權限中的「誰可以存取」是否設為「所有人 (Anyone)」\n2. 網址是否完整正確`);
+        }
+      } finally {
+        isFetchingCloud = false;
+        if (refreshIcon) refreshIcon.classList.remove("sync-spin");
+      }
+    }
+
+    // Send action to Google Apps Script
+    async function sendCloudAction(payload) {
+      if (!cloudApiUrl) return false;
+      try {
+        await fetch(cloudApiUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+        setTimeout(() => fetchCloudOrders(false), 1200);
+        return true;
+      } catch (err) {
+        console.error("發送至 Google 試算表失敗:", err);
+        return false;
       }
     }
 
@@ -1667,6 +1846,7 @@
       const timeStr = `${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
 
       ordersData[currentStudent.座號] = {
+        seat: currentStudent.座號,
         name: currentStudent.姓名,
         item: selectedMenuItem.餐點,
         price: selectedMenuItem.金額,
@@ -1677,16 +1857,36 @@
       renderSeats();
       closeModalDirect();
 
-      alert(`🎉 訂餐成功！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)\n\n💡 提示：您可點擊上方「📄 status.json 管理」匯出或下載最新的資料表檔案。`);
+      if (cloudApiUrl) {
+        sendCloudAction({
+          action: "order",
+          seat: currentStudent.座號,
+          name: currentStudent.姓名,
+          item: selectedMenuItem.餐點,
+          price: selectedMenuItem.金額,
+          time: timeStr
+        });
+        alert(`🎉 訂餐成功並已同步至雲端！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)`);
+      } else {
+        alert(`🎉 訂餐成功！\n【${currentStudent.座號}號 ${currentStudent.姓名}】已選擇 ${selectedMenuItem.餐點} ($${selectedMenuItem.金額} 元)\n\n💡 提示：目前為本地模式。老師若要跨裝置即時收到全班點餐，請點擊上方「☁️ 雲端同步設定」連結 Google 試算表。`);
+      }
     }
 
     function removeOrder() {
       if (!currentStudent) return;
       if (confirm(`確定要取消 ${currentStudent.姓名} 的點餐紀錄嗎？`)) {
-        delete ordersData[currentStudent.座號];
+        const seatNo = currentStudent.座號;
+        delete ordersData[seatNo];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
         renderSeats();
         closeModalDirect();
+
+        if (cloudApiUrl) {
+          sendCloudAction({
+            action: "cancel",
+            seat: seatNo
+          });
+        }
       }
     }
 
@@ -1695,6 +1895,12 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(ordersData));
       renderSeats();
       console.log(`[訂餐系統] 已於 ${new Date().toLocaleString()} 完成全班訂餐紀錄重置 (${reason})`);
+
+      if (cloudApiUrl) {
+        sendCloudAction({
+          action: "reset"
+        });
+      }
     }
 
     function clearAllOrders() {
@@ -1945,6 +2151,92 @@
       document.getElementById("modalOverlay").classList.remove("active");
     }
 
+    // Cloud Settings Modal Controls
+    function openCloudModal() {
+      const modal = document.getElementById("cloudModalOverlay");
+      const input = document.getElementById("cloudApiUrlInput");
+      input.value = cloudApiUrl || "";
+      const diag = document.getElementById("cloudDiagBox");
+      if (cloudApiUrl) {
+        diag.className = "diag-box diag-success";
+        diag.style.display = "block";
+        diag.innerHTML = `🟢 目前已綁定 Google Apps Script 雲端網址。<br>若學生訂餐仍未同步，請確認部署時「誰可以存取」是否選為<strong>「所有人 (Anyone)」</strong>。`;
+      } else {
+        diag.className = "diag-box diag-warning";
+        diag.style.display = "block";
+        diag.innerHTML = `🟡 目前尚未設定雲端網址（處於本地模式）。請依照下方 3 步驟部屬 Google 試算表後，將網址貼在上方並儲存。`;
+      }
+      modal.classList.add("active");
+    }
+
+    function closeCloudModal(e) {
+      if (e.target.id === "cloudModalOverlay") {
+        document.getElementById("cloudModalOverlay").classList.remove("active");
+      }
+    }
+
+    function closeCloudModalDirect() {
+      document.getElementById("cloudModalOverlay").classList.remove("active");
+    }
+
+    async function saveCloudSettings() {
+      const input = document.getElementById("cloudApiUrlInput");
+      const val = input.value.trim();
+      const diag = document.getElementById("cloudDiagBox");
+
+      if (!val) {
+        clearCloudSettings();
+        return;
+      }
+
+      if (!val.startsWith("https://script.google.com/macros/s/")) {
+        alert("⚠️ 提示：Google Apps Script 網頁應用程式網址通常以「https://script.google.com/macros/s/...」開頭，請確認網址完整性。");
+      }
+
+      cloudApiUrl = val;
+      localStorage.setItem(CLOUD_API_KEY, cloudApiUrl);
+
+      diag.className = "diag-box diag-warning";
+      diag.style.display = "block";
+      diag.innerHTML = `🔄 正在測試連線至 Google 試算表...`;
+
+      updateSyncStatusDisplay("syncing", "連線測試中...");
+      await fetchCloudOrders(true);
+
+      if (document.getElementById("syncStatusBadge").classList.contains("sync-connected")) {
+        diag.className = "diag-box diag-success";
+        diag.innerHTML = `✅ 連線成功！Google 試算表已成功綁定，全班訂單已即時同步。`;
+      } else {
+        diag.className = "diag-box diag-error";
+        diag.innerHTML = `❌ 連線失敗！請確認部署設定中的「誰可以存取」務必設定為「所有人 (Anyone)」，並確認網址是否正確。`;
+      }
+    }
+
+    function clearCloudSettings() {
+      cloudApiUrl = "";
+      localStorage.removeItem(CLOUD_API_KEY);
+      document.getElementById("cloudApiUrlInput").value = "";
+      updateSyncStatusDisplay("local", "本地模式 (未設定雲端)");
+      const diag = document.getElementById("cloudDiagBox");
+      diag.className = "diag-box diag-warning";
+      diag.style.display = "block";
+      diag.innerHTML = `🟡 已清除雲端設定，已切換回純本地模式。`;
+      alert("✅ 已清空雲端設定！目前為純本地模式。");
+    }
+
+    function copyGasCode() {
+      const gasBox = document.getElementById("gasCodeBox");
+      let code = gasBox ? gasBox.innerText.trim() : "";
+      if (!code) {
+        code = `const SHEET_NAME = "點餐明細";\n\nfunction doGet(e) {\n  const sheet = getOrCreateSheet();\n  const data = sheet.getDataRange().getValues();\n  const orders = {};\n  for (let i = 1; i < data.length; i++) {\n    const seat = String(data[i][0]).padStart(2, '0');\n    if (seat && data[i][2]) {\n      orders[seat] = { seat: seat, name: data[i][1], item: data[i][2], price: data[i][3], time: data[i][4] };\n    }\n  }\n  return ContentService.createTextOutput(JSON.stringify({ status: "success", count: Object.keys(orders).length, orders: orders })).setMimeType(ContentService.MimeType.JSON);\n}\n\nfunction doPost(e) {\n  try {\n    const postData = JSON.parse(e.postData.contents);\n    const action = postData.action;\n    const sheet = getOrCreateSheet();\n    if (action === "order") {\n      const seat = String(postData.seat).padStart(2, '0');\n      const name = postData.name;\n      const item = postData.item;\n      const price = postData.price;\n      const time = postData.time;\n      const data = sheet.getDataRange().getValues();\n      let foundRow = -1;\n      for (let i = 1; i < data.length; i++) {\n        if (String(data[i][0]).padStart(2, '0') === seat) { foundRow = i + 1; break; }\n      }\n      if (foundRow > 0) {\n        sheet.getRange(foundRow, 1, 1, 5).setValues([[seat, name, item, price, time]]);\n      } else {\n        sheet.appendRow([seat, name, item, price, time]);\n      }\n      return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);\n    } else if (action === "cancel") {\n      const seat = String(postData.seat).padStart(2, '0');\n      const data = sheet.getDataRange().getValues();\n      for (let i = 1; i < data.length; i++) {\n        if (String(data[i][0]).padStart(2, '0') === seat) { sheet.deleteRow(i + 1); break; }\n      }\n      return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);\n    } else if (action === "reset") {\n      sheet.clearContents();\n      sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);\n      return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);\n    }\n  } catch(e) {\n    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: e.toString() })).setMimeType(ContentService.MimeType.JSON);\n  }\n}\n\nfunction getOrCreateSheet() {\n  const ss = SpreadsheetApp.getActiveSpreadsheet();\n  let sheet = ss.getSheetByName(SHEET_NAME);\n  if (!sheet) {\n    sheet = ss.insertSheet(SHEET_NAME);\n    sheet.appendRow(["座號", "姓名", "訂購餐點", "金額", "訂餐時間"]);\n  }\n  return sheet;\n}`;
+      }
+      navigator.clipboard.writeText(code).then(() => {
+        alert("✅ Google Apps Script 程式碼已成功複製到剪貼簿！\n請前往 Google 試算表 ➔ 擴充功能 ➔ Apps Script 貼上。");
+      }).catch(() => {
+        prompt("請手動選取以下程式碼複製：", code);
+      });
+    }
+
     // Initialize page on load
     window.onload = async () => {
       // 1. Load seat.json
@@ -1973,10 +2265,33 @@
       checkAutoReset();
       setInterval(checkAutoReset, 1000);
       updateTimeStatusDisplay();
-
-      // 3. Load status.json as the master data table
-      await loadStatusJson();
       renderSeats();
+
+      // Preload GAS script into modal copy box
+      const gasBox = document.getElementById("gasCodeBox");
+      if (gasBox) {
+        try {
+          const gasRes = await fetch(`google_apps_script.js?_t=${Date.now()}`);
+          if (gasRes.ok) {
+            gasBox.innerText = await gasRes.text();
+          }
+        } catch (e) {}
+      }
+
+      // 3. Connect to cloud or load fallback
+      if (cloudApiUrl) {
+        await fetchCloudOrders();
+      } else {
+        updateSyncStatusDisplay("local");
+        await loadStatusJson();
+      }
+
+      // Auto periodic sync every 6 seconds if cloud API is configured
+      setInterval(() => {
+        if (cloudApiUrl) {
+          fetchCloudOrders();
+        }
+      }, 6000);
     };
   </script>
 </body>
